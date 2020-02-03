@@ -19,5 +19,5 @@ int main() {
     std::cin >> g >> std::endl;
     std::cin >> b >> std::endl;
     Color color(r,g,b);
-    std::string Color::to_string(color);
+    std::cout << color.to_string() << std::endl;
 }
