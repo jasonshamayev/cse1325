@@ -1,6 +1,6 @@
 #include <iostream>
 #include "color.h"
-
+#include <string>
 
 Color::Color(int red, int green, int blue){
 	_red = red;

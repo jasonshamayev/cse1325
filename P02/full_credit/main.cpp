@@ -1,6 +1,6 @@
 #include "color.h"
 #include <iostream>
-
+#include <string>
 int main() {
     int r,g,b;
 
