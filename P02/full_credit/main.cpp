@@ -12,12 +12,12 @@ int main() {
     std::cout << navy.colorize("Navy") << std::endl;
     Color gray{128,128,128};
     std::cout << gray.colorize("Gray") << std::endl;
-    Color red{255,0,0};
+   /* Color red{255,0,0}; // Default Colors r,g,b
     std::cout << red.colorize("Red") << std::endl;
     Color green{0,255,0};
     std::cout << green.colorize("Green") << std::endl;
     Color blue{0,0,255};
-    std::cout << blue.colorize("Blue") << std::endl;
+    std::cout << blue.colorize("Blue") << std::endl; */
 
     std::cout << "Enter 3 numbers representing red, green, and blue" << std::endl;
     std::cin >> r; 

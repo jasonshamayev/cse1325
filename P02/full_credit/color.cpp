@@ -11,6 +11,10 @@ if (0 > _blue || _blue > 255) throw 			std::runtime_error{"Invalid color input"}
 	_green = green;
 	_blue = blue;
 
+if (0 > _red || _red > 255) throw 			std::runtime_error{"Invalid color input"};
+if (0 > _green || _green > 255) throw 			std::runtime_error{"Invalid color input"};
+if (0 > _blue || _blue > 255) throw 			std::runtime_error{"Invalid color input"};
+
 
 }
 
