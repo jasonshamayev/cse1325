@@ -6,10 +6,11 @@
 class Color {
 
 	public: 
+		Color();
 		Color(int red, int green, int blue); // default Constructor
 		//~Color(); Destructor
 		
-		std::string colorize(); 
+		std::string colorize(std::string text); 
 		std::string to_string(); // returns a string representation of the RGB color in format "(r,g,b)"
 
        		 /*return "(" + std::to_string(red) + ","

@@ -14,10 +14,10 @@ int main() {
     Color green{0,255,0};
     std::cout << green.colorize("Green") << std::endl;
 
-    std::cout << "Enter 3 numbers representing red, green, and blue" << std::endl;
+   /* std::cout << "Enter 3 numbers representing red, green, and blue" << std::endl;
     std::cin >> r >> std::endl;
     std::cin >> g >> std::endl;
     std::cin >> b >> std::endl;
     Color color(r,g,b);
-    std::cout << color.to_string() << std::endl;
+    std::cout << color.to_string() << std::endl;*/
 }

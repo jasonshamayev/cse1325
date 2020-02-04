@@ -3,25 +3,30 @@
 #include <string>
 
 Color::Color(int red, int green, int blue){
+if (0 > _red || _red > 255) throw 			std::runtime_error{"Invalid color input"};
+if (0 > _green || _green > 255) throw 			std::runtime_error{"Invalid color input"};
+if (0 > _blue || _blue > 255) throw 			std::runtime_error{"Invalid color input"};
+
 	_red = red;
 	_green = green;
 	_blue = blue;
 
+
 }
 
-Color::to_string() {
-		return ("(" + std::to_string(red) + ","
-             		+ std::to_string(green) + ","
-            		 + std::to_string(blue) + ")");
+std::string Color::to_string() {
+		return ("(" + std::to_string(_red) + ","
+             		+ std::to_string(_green) + ","
+            		 + std::to_string(_blue) + ")");
 		
 
 
 
 }
-Color::colorize(std::string text){
+std::string Color::colorize(std::string text){
 
-	return ("\033[38;2;" + red + ";" + green + ";" +
-	blue + ";177m" + text + "\033[0m");
+	return ("\033[38;2;" + _red + ";" + _green + ";" +
+	_blue + ";177m" + std::string text + "\033[0m");
 
 
 }
