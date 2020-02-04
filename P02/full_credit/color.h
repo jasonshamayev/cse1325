@@ -21,7 +21,6 @@ class Color {
 	private: // red green blue (int)
 		int _red, _green, _blue;
 		
-		if (0 > _red || _red > 255) throw 			std::runtime_error{"Invalid color input"};
 
 
 
