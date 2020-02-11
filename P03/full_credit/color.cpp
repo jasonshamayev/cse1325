@@ -18,6 +18,35 @@ if (0 > _blue || _blue > 255) throw 			std::runtime_error{"Invalid color input"}
 
 }
 
+
+// for use with cout
+std::ostream& operator<<(std::ostream& ost, const Color& color){
+	ost << "\033[38;2;" << color._red << ";" <<
+		color._green << ";" <<
+		 color._blue << ";177m";
+	return ost;
+	 		
+
+
+}
+// for use with cin
+std::istream& operator>>(std::istream& ist, Color& color){
+	
+	ist >> color._red >> color._green >> color._blue;
+	return ist;
+
+
+}
+
+Color::Color(){
+	
+	_red = 0;
+	_green = 0;
+	_blue = 0;
+	_reset = true;
+
+}
+
 std::string Color::to_string() {
 		return "(" + std::to_string(_red) + ","
              		+ std::to_string(_green) + ","
@@ -27,10 +56,11 @@ std::string Color::to_string() {
 
 
 }
-std::string Color::colorize(std::string text){
+
+/*std::string Color::colorize(std::string text){
 
 	return "\033[38;2;" + std::to_string(_red) + ";" + std::to_string(_green) + ";" +
-	std::to_string(_blue) + ";177m" + text + "\033[0m";
+	std::to_string(_blue) + ";177m" + text + "\033[0m"; 
 
 
-}
+} */
