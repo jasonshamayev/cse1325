@@ -6,6 +6,7 @@
 
 int main() {
 	int r,g,b;
+	bool reset;
     Color pink{255,102,178};
     std::cout << pink << "Pink" << std::endl;
     //std::cout << pink.colorize("Pink") << std::endl;
@@ -13,8 +14,8 @@ int main() {
     std::cout << navy << "Navy" << std::endl;
     //std::cout << navy.colorize("Navy") << std::endl;
     Color gray{128,128,128};
-    std::cout << gray << "Gray" << std::endl;
-    Color{};
+    std::cout << gray << "Gray" << "\033[0m" << std::endl;
+    Color();
     //std::cout << gray.colorize("Gray") << std::endl;
    /* Color red{255,0,0}; // Default Colors r,g,b
     std::cout << red.colorize("Red") << std::endl;
@@ -36,7 +37,7 @@ int main() {
     //std::cin >> g;
     //std::cin >> b;
     std::cin >> color;
-    std::cout << color.to_string()\n;
+    std::cout << color.to_string() << std::endl;
     std::cout << color << color.to_string() << std::endl;
 
 }
