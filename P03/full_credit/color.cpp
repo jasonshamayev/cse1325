@@ -21,11 +21,11 @@ if (0 > _blue || _blue > 255) throw 			std::runtime_error{"Invalid color input"}
 
 // for use with cout
 std::ostream& operator<<(std::ostream& ost, const Color& color){
+	
 	ost << "\033[38;2;" << color._red << ";" <<
 		color._green << ";" <<
 		 color._blue << ";177m";
 	return ost;
-	 		
 
 
 }

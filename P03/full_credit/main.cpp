@@ -36,7 +36,7 @@ int main() {
     //std::cin >> g;
     //std::cin >> b;
     std::cin >> color;
-    std::cout << color;
+    std::cout << color.to_string()\n;
     std::cout << color << color.to_string() << std::endl;
 
 }
