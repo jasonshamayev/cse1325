@@ -20,8 +20,13 @@ class Coin{
 		Coin(); // Default Constructor
 		Coin(Size size, Year year);
 		Coin(const Coin& rhs) // Copy Constructor: _Year{rhs.Year()} {}; // Copy Constructor
-		~Coin();
-		Coin& operator=(const Coin& rhs); // Copy Assignment
+		~Coin(){delete _year}; // Destructor
+		int* get() const {return _year;}
+		void set(int* year) {*_year = *year;}
+		Coin& operator=(const Coin& rhs){
+		if(this != &rhs) _year = new int rhs.year();
+		return *this;
+} // Copy Assignment
 
 		friend std::ostream& operator<<(std::ostream& ost, const Coin&);// 
 		friend std::istream& operator>>(std::istream& ist, Coin&);

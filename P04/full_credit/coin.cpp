@@ -5,6 +5,7 @@
 Coin::Coin(Size size, Year year){
 	_size = size;
 	_year = year;
+	_notes = nullptr;
 }
 
 Coin:Coin(){
@@ -12,9 +13,13 @@ Coin:Coin(){
 
 
 }
+~Coin() {delete _notes;}
 
-Coin(const Coin& rhs) : _Year{rhs.Year()} {};
 
+std::ostream& operator<<(std::ostream& ost, const Coin& coin){
+
+	ost << coin._year + " " + "";
+	return ost;
 Coin::add_note(std::string s){
 	if(!_notes){
 
