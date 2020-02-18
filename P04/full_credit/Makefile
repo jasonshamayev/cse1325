@@ -3,7 +3,9 @@ CXXFLAGS += --std=c++17
 
 all: coin
 
-logger: CXXFLAGS += -DLOGGER
+logger: CXXFLAGS += -DLOGGER test.cpp -c -o test.o
+		coin.cpp -c -o -coin.o 
+		test.o coin.o -o coin
 logger: coin
 
 coin: main.o coin.o

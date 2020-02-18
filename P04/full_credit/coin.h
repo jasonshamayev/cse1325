@@ -23,17 +23,17 @@ std::string to_string(Coin_size coin) {
 			Coin(); // Default Constructor
 			Coin(Coin_size size, Year year);
 			Coin(const Coin& rhs); // Copy Constructor: _Year{rhs.Year()} {}; // Copy Constructor;
-			~Coin() { delete _notes}; // Destructor
+			~Coin(); // Destructor
 			std::string* get() const { return _notes; }
 			void set(std::string* notes) { *_notes = *notes; }
-			Coin& operator=(const Coin& rhs);
+			Coin& operator=( Coin& rhs);
 			/*{
 				if (this != &rhs) _notes = new std::string* rhs(notes);
 				return *this;
 			}  Copy Assignment */
 
 			friend std::ostream& operator<<(std::ostream& ost, const Coin&);// 
-			friend std::istream& operator>>(std::istream& ist, Coin&); //
+			friend std::istream& operator>>(std::istream& ist,  Coin&); //
 			void add_note(std::string s);
 
 
