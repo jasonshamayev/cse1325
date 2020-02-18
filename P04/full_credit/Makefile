@@ -3,25 +3,22 @@ CXXFLAGS += --std=c++17
 
 all: coin
 
-logger: CXXFLAGS += -DLOGGER test.cpp -c -o test.o
-		coin.cpp -c -o -coin.o 
-		test.o coin.o -o coin
+logger: CXXFLAGS += -DLOGGER 
 logger: coin
 
-coin: main.o coin.o
-	$(CXX) $(CXXFLAGS) main.o coin.o -o coin
+rebuild: clean coin
 
-test.o: test.o color.o
-	$(CXX) $(CXXFLAGS) test.o coin.o -o test
+coin: test.o coin.o *.h
+	$(CXX) $(CXXFLAGS) -o coin test.o coin.o
 
-main.o: main.cpp
-	$(CXX) $(CXXFLAGS) -c main.cpp -o main.o
+test.o: test.cpp *.h
+	$(CXX) $(CXXFLAGS) -c test.cpp
 
-coin.o: coin.cpp
-	$(CXX) $(CXXFLAGS) -c coin.cpp -o coin.o
+coin.o: coin.cpp *.h
+	$(CXX) $(CXXFLAGS) -c coin.cpp
 
 coin.gch: coin.h
 	$(CXX) $(CXXFLAGS) -c coin.h -o coin.gch
 
 clean:
-	rm -f *.o *.gch ~* a.out test coin
+	rm -f *.o *.gch *~ coin
