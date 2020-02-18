@@ -4,6 +4,7 @@
 #include <iostream>
 #include <ostream>
 #include <exception>
+#include "logger.h"
 
 enum class Coin_size   {PENNY, NICKEL, DIME, QUARTER};
 
@@ -12,7 +13,7 @@ enum class Coin_size   {PENNY, NICKEL, DIME, QUARTER};
 			typedef int Year;
 		public:
 			Coin(); // Default Constructor
-			Coin(Coin_size size, Year year);
+			Coin(Coin_size size, Year year); 
 			Coin(const Coin& rhs); // Copy Constructor: _Year{rhs.Year()} {}; // Copy Constructor;
 			~Coin(); // Destructor
 			std::string* get() const { return _notes; }

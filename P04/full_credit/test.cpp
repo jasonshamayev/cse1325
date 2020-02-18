@@ -1,7 +1,9 @@
 #include "coin.h"
+#include <iostream>
+#include "logger.h"
 
 int main() {
-    Coin c1{Coin_size::PENNY,  2006};
+    Coin c1{ Coin_size::PENNY,  2006 }; LOG("Coin::Coin");
     c1.add_note("This is a 2006 penny");
 
     Coin c2{Coin_size::NICKEL, 1996};

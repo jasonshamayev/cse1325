@@ -14,13 +14,14 @@ std::string to_string(Coin_size coin) {
 	}
 }
 
-Coin::Coin(Coin_size size, Year year){
+Coin::Coin(Coin_size size, Year year) {
+	LOG("Coin::Coin");
 	_size = size;
 	_year = year;
-	_notes = nullptr;
+	_notes = nullptr; 
 }
 
-Coin::Coin(const Coin& rhs) : _size{ rhs._size }, _year{ rhs._year } {
+Coin::Coin(const Coin& rhs) : _size{ rhs._size }, _year{ rhs._year } { LOG("Coin::Coin copy constructor");
 
 	_notes = new std::string{ *rhs._notes };
 }
@@ -33,9 +34,10 @@ Coin::Coin(){
 
 
 }
-Coin::~Coin() { delete _notes; }
+Coin::~Coin() { delete _notes; } LOG("Coin::~Coin");
 
-Coin& Coin::operator=( Coin& rhs) {
+Coin& Coin::operator=(Coin& rhs) {
+	LOG("Coin::operator");
 	if (this != &rhs) {
 		delete _notes;
 		_notes = rhs._notes;
