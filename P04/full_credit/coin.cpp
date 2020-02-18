@@ -48,13 +48,13 @@ Coin& Coin::operator=( Coin& rhs) {
 
 std::ostream& operator<<(std::ostream& ost, const Coin& coin) {
 	
-	ost << coin._year << " "  << " " << "\n" << coin._notes ;
+	ost << coin._year << " "  <<  to_string(coin._size)  << "\n" << coin._notes;
 	return ost;
 }
 
 std::istream& operator>>(std::istream& ist, Coin& coin) {
 
-	ist >> coin._year >> *coin._notes;
+	ist >> coin._year >> *(coin._notes);
 	return ist;
 }
 void Coin::add_note(std::string s) {
