@@ -3,6 +3,17 @@
 #include <string>
 #include "logger.h"
 
+std::string to_string(Coin_size coin) {
+	switch (coin) {
+	case Coin_size::PENNY: return "Penny"; break;
+	case Coin_size::NICKEL: return "Nickel"; break;
+	case Coin_size::DIME: return "Dime"; break;
+	case Coin_size::QUARTER: return "Quarter"; break;
+	default: throw std::runtime_error{ "Invalid coin" };
+
+	}
+}
+
 Coin::Coin(Coin_size size, Year year){
 	_size = size;
 	_year = year;
@@ -46,12 +57,12 @@ std::istream& operator>>(std::istream& ist, Coin& coin) {
 	ist >> coin._year >> *coin._notes;
 	return ist;
 }
-void Coin::add_note(std::string s){
+void Coin::add_note(std::string s) {
 	if (!_notes) {
 
-		_notes = new std::string{ s };
+		_notes = new std::string(s);
 	}
-	//else {
-	//	_notes = _notes + ' '  s;
+	else {
+		*_notes += s;
 	}
-
+}

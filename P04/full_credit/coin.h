@@ -3,19 +3,10 @@
 #include <string>
 #include <iostream>
 #include <ostream>
+#include <exception>
 
 enum class Coin_size   {PENNY, NICKEL, DIME, QUARTER};
 
-std::string to_string(Coin_size coin) {
-	switch (coin) {
-	case Coin_size::PENNY: return "Penny"; break;
-	case Coin_size::NICKEL: return "Nickel"; break;
-	case Coin_size::DIME: return "Dime"; break;
-	case Coin_size::QUARTER: return "Quarter"; break;
-	default: throw std::runtime_error{ "Invalid coin" };
-
-	}
-}
 
 		class Coin {
 			typedef int Year;
