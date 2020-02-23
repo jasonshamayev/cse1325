@@ -1,14 +1,12 @@
 #include "Taxfree.h"
+#include <iostream>
 
-Taxfree::Taxfree(std::string name, double cost)
-{
-}
+Taxfree::Taxfree(std::string name, double cost) : Product(name, cost) {}
 
-Taxfree::~Taxfree()
-{
-}
+Taxfree::~Taxfree(){}
 
 double Taxfree::price() const
 {
-	return 0.0;
+	double price = _quantity * _cost;
+	return price;
 }

@@ -1,12 +1,14 @@
 #include <iostream>
 #include "Product.h"
 #include <iomanip>
+#include <ostream>
 
 Product::Product(std::string name, double cost)
 {
 	_name = name; 
 	_cost = cost;
 	_quantity = 0;
+	if (_cost < 0) std::runtime_error("Cost cannot be negative.");
 }
 
 Product::~Product(){}
@@ -27,7 +29,7 @@ std::ostream& operator<<(std::ostream& ost, const Product& product)
 
 		ost << product._name << " " << "(" << product._quantity << "@" << " " << "$" << product._cost << (std::setprecision(2));
 	}
-	else if (product._quantity == 0)
+	else if (product._quantity <= 0)
 	{
 		return ost;
 	}
