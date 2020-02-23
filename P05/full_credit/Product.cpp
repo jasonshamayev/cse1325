@@ -1,1 +1,34 @@
 #include <iostream>
+#include "Product.h"
+#include <iomanip>
+
+Product::Product(std::string name, double cost)
+{
+	_name = name; 
+	_cost = cost;
+	_quantity = 0;
+}
+
+Product::~Product(){}
+
+void Product::set_quantity(int quantity)
+{
+	_quantity = quantity;
+}
+
+double Product::price() const
+{
+	return 0.0;
+}
+
+std::ostream& operator<<(std::ostream& ost, const Product& product)
+{
+	if (product._quantity > 0) {
+
+		ost << product._name << " " << "(" << product._quantity << "@" << " " << "$" << product._cost << (std::setprecision(2));
+	}
+	else if (product._quantity == 0)
+	{
+		return ost;
+	}
+}
