@@ -27,10 +27,13 @@ std::ostream& operator<<(std::ostream& ost, const Product& product)
 {
 	if (product._quantity > 0) {
 
-		ost << product._name << " " << "(" << product._quantity << "@" << " " << "$" << product._cost << (std::setprecision(2));
+		ost << product._name << " " << "(" << product._quantity << "@" << " " << "$" << product._cost << ")";
+
 	}
-	else if (product._quantity <= 0)
+	else
 	{
-		return ost;
+		ost << product._name << " " << "(" << "$" << product._cost << ")";
+	
 	}
+	return ost;
 }

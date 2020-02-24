@@ -16,6 +16,8 @@ int main() {
 	Product Icecream("Ice Cream", 4.95);
 	Product Poptarts("Poptarts", 3.49);
 	Product Oreos("Oreos", 5.99);
+	
+
 	/*storeVector[0] = Milk;
 	storeVector[1] = Bread;
 	storeVector[2] = Cheese;
@@ -30,7 +32,7 @@ int main() {
 	storeVector.push_back(Oreos); 
 	/*
 	storeVector.push_back({ "Milk", 2.85 });
-	storeVector.push_back({ "Bread", 1.99 });
+	storeVector.push_back({ "Bread", 1.99 });  
 	storeVector.push_back({ "Cheese", 0.99 });
 	storeVector.push_back({ "Ice Cream", 4.95 });
 	storeVector.push_back({ "Poptarts", 3.49 });
@@ -40,7 +42,7 @@ int main() {
 	//std::vector<int> store2(store.begin(), store.end());
 	//std::vector<int> price{}
 	while (run) {
-		std::cout << "=========================" << "\n" << "   Welcome to the Store  " <<"\n" << "=========================" << "\n";
+		std::cout << "=========================" << "\n" << "   Welcome to the Store  " << "\n" << "=========================" << "\n";
 
 		//size_t size = 6;
 		//std::vector<int> storeVector(size);
@@ -50,19 +52,27 @@ int main() {
 		//for (int x : store2)
 			//std::cout << x << " ";
 		unsigned int size = storeVector.size();
-		
+		/*for (auto begin = storeVector.begin(); begin != storeVector.end(); ++begin) {
+			std::cout << *begin << " ";
+		}*/
 		for (unsigned int i = 0; i < size; i++) {
 			std::cout << i << ")" << storeVector[i] << std::endl;
 		}
 
 		std::cout << "Enter quantity (0 to exit) and product index: ";
 		std::cin >> quantity >> index;
-		if (quantity == 0)
+		if (quantity == 0){
 			run = 0;
+			std::cout << "\nThank you, come again" << std::endl;
+			}
 		//else if (quantity < 0 || _product )
 		//std::runtime_error{ "Negative quantity or undefined grocery item. Pleast try again." };
 		//run = 1;
-		else
-			run = 1;
+		else {
+		run = 1;
+		//quantity = Product::_quantity;
+		std::cout << "\nCurrent Order" << "\n-------------" << "\n" << storeVector[index] << std::endl;
+		std::cout << "\nTotal price: " << storeVector[index].price() << std::endl;
+			}
 		}
 	}
