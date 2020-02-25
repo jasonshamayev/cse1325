@@ -16,7 +16,6 @@ int main() {
 	Product Icecream("Ice Cream", 4.95);
 	Product Poptarts("Poptarts", 3.49);
 	Product Oreos("Oreos", 5.99);
-	
 
 	/*storeVector[0] = Milk;
 	storeVector[1] = Bread;
@@ -61,6 +60,9 @@ int main() {
 
 		std::cout << "Enter quantity (0 to exit) and product index: ";
 		std::cin >> quantity >> index;
+		//storeVector[index].set_quantity[quantity];		
+		Milk.set_quantity(quantity);
+		Bread.set_quantity(quantity);
 		if (quantity == 0){
 			run = 0;
 			std::cout << "\nThank you, come again" << std::endl;
