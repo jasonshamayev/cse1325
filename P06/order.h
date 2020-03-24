@@ -10,6 +10,7 @@ public:
 	~Order();
 	int add_product(Desktop& desktop);
 	double price();
+	friend std::ostream& operator<<(std::ostream& ost, const Order&);
 
 private:
 	Customer& _customer;

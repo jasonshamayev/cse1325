@@ -1,6 +1,10 @@
 #include "options.h"
 #include <iostream>
-Options::Options() {}
+Options::Options() {
+	_name = nullptr;
+	_cost = 0;
+
+}
 
 Options::Options(std::string name, double cost)
 {
@@ -14,12 +18,12 @@ Options::~Options()
 
 double Options::cost()
 {
-	return 0.0;
+	return _cost;
 }
 
 std::string Options::to_string()
 {
-	return std::string();
+	
 }
 
 std::ostream& operator<<(std::ostream& ost, const Options& options)

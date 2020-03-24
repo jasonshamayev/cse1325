@@ -11,10 +11,11 @@ double Desktop::price()
 
 void Desktop::add_option(Options& option)
 {
-	options.push_back(option);
+	 options.push_back(&option);
 }
 
 std::ostream& operator<<(std::ostream& ost, const Desktop& desktop)
 {
-	ost << name.
+	ost << desktop.add_option << " " << desktop.price;
+	return ost;
 }
