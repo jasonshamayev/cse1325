@@ -1,10 +1,5 @@
 #include "options.h"
 #include <iostream>
-Options::Options() {
-	_name = nullptr;
-	_cost = 0;
-
-}
 
 Options::Options(std::string name, double cost)
 {
@@ -14,6 +9,7 @@ Options::Options(std::string name, double cost)
 
 Options::~Options()
 {
+	delete& _cost, & _name;
 }
 
 double Options::cost()

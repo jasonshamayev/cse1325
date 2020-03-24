@@ -1,12 +1,6 @@
 #include "customer.h"
 #include <iostream>
 
-Customer::Customer()
-{
-	_name;
-	_phone;
-	_email;
-}
 
 Customer::Customer(std::string name, std::string phone, std::string email)
 {

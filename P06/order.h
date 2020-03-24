@@ -5,9 +5,8 @@
 
 class Order {
 public:
-	Order();
 	Order(Customer& customer);
-	~Order();
+	virtual ~Order();
 	int add_product(Desktop& desktop);
 	double price();
 	friend std::ostream& operator<<(std::ostream& ost, const Order&);

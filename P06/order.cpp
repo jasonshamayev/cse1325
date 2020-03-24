@@ -2,22 +2,26 @@
 #include <numeric>
 #include <vector>
 #include <iostream>
-Order::Order()
-{
-}
 
 Order::Order(Customer& customer)
-{
-	_customer = customer
-}
+	: _customer(customer) {}
 
 Order::~Order()
 {
+	for (auto desktop : _products)
+	{
+		delete desktop;
+	}
+	_products.clear();
 }
 
 int Order::add_product(Desktop& desktop)
 {
-	return 0;
+	int count;
+	_products.push_back(&desktop);
+	count = _products.size();
+	return count;
+
 }
 
 double Order::price()
@@ -28,5 +32,13 @@ double Order::price()
 
 std::ostream& operator<<(std::ostream& ost, const Order& order)
 {
-	ost <<
+	//for(std::vector<Desktop>::iterator it = _products.begin(); it != _products.end(); it++)
+	for (auto desktop : order._products) {
+		ost << desktop->price << " " << desktop->add_option;
+	}
+	return ost;
 }
+
+
+
+

@@ -13,7 +13,7 @@ int Store::num_customers()
 
 Customer& Store::customer(int index)
 {
-	customers.push_back(index)
+	return customers[index];
 }
 
 void Store::add_option(Options& option)
@@ -28,48 +28,53 @@ int Store::num_options()
 
 Options& Store::option(int index)
 {
-	options.push_back(&index)
+	return *options[index];
+
 }
 
 int Store::new_desktop()
 {
 	int index;
-	Desktop newDesktop;
-	desktops.push_back(newDesktop);
-	newDesktop == index;
+	std::vector<Desktop> desktop;
+	desktop.push_back(&index);
 	return index;
 }
 
 void Store::add_option(int option, int desktop)
 {
-
+	options.push_back(&desktop);
 }
 
 int Store::num_desktops()
 {
-	return 0;
+	return desktops.size();
 }
 
 Desktop& Store::desktop(int index)
 {
-	// TODO: insert return statement here
+	return desktops[index];
 }
 
 int Store::new_order(int customer)
 {
-	return 0;
+	std::vector<Order> order;
+	order.push_back(&customer);
+	return customer;
 }
 
 void Store::add_desktop(int desktop, int order)
 {
+	desktops.push_back(&order);
 }
 
 int Store::num_orders()
 {
-	return 0;
+	return orders.size();
 }
 
 Order& Store::order(int index)
 {
-	// TODO: insert return statement here
+	orders.push_back(&index);
+		return index;
+
 }

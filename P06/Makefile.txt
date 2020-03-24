@@ -1,0 +1,25 @@
+# Makefile for Sprint 1
+CXXFLAGS = -std=c++17
+
+all: main
+
+main: store.o main.o *.h
+	$(CXX) $(CXXFLAGS) store.o main.o -o main
+
+store.o: store.cpp *.h
+	$(CXX) $(CXXFLAGS) -c store.cpp
+
+customer.o: customer.cpp *.h
+	$(CXX) $(CXXFLAGS) -c customer.cpp
+
+order.o: order.cpp *.h
+	$(CXX) $(CXXFLAGS) -c order.cpp
+
+desktop.o: desktop.cpp *.h
+	$(CXX) $(CXXFLAGS) -c desktop.cpp
+
+options.o: options.cpp *.h
+	$(CXX) $(CXXFLAGS) -c options.cpp
+
+clean:
+	rm -f *.o *.gch a.out main

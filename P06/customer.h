@@ -4,7 +4,6 @@
 
 class Customer {
 public:
-	Customer();
 	Customer(std::string name, std::string phone, std::string email);
 	friend std::ostream& operator<<(std::ostream& ost, const Customer&);
 private:

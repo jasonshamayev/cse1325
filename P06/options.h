@@ -5,7 +5,6 @@
 
 class Options {
 public:
-	Options();
 	Options(std::string name, double cost);
 	~Options();
 	double cost();
