@@ -1,3 +1,5 @@
+#ifndef __MAINWIN_H
+#define __MAINWIN_H
 #include <gtkmm.h>
 #include <string>
 
@@ -28,3 +30,4 @@ private:
 	Gtk::Label* msg;
 
 };
+#endif
