@@ -1,5 +1,6 @@
 #ifndef __MAINWIN_H
 #define __MAINWIN_H
+#include "store.h"
 #include <gtkmm.h>
 #include <string>
 
