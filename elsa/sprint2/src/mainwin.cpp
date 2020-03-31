@@ -3,7 +3,7 @@
 #include "entrydialog.h"
 #include <iostream>
 #include <gtkmm.h>
-#include <ssteam>
+#include <sstream>
 
 Mainwin::Mainwin() : store{ nullptr } {
 
@@ -12,7 +12,7 @@ Mainwin::Mainwin() : store{ nullptr } {
 
 
 	set_default_size(800, 200);
-	set_title("Products");
+	set_title("ELSA");
 
     // Put a vertical box container as the Window contents
     Gtk::Box* vbox = Gtk::manage(new Gtk::VBox);
@@ -23,7 +23,7 @@ Mainwin::Mainwin() : store{ nullptr } {
     // Add a menu bar as the top item in the vertical box
     Gtk::MenuBar* menubar = Gtk::manage(new Gtk::MenuBar);
     vbox->pack_start(*menubar, Gtk::PACK_SHRINK, 0);
-    // vbox->add(*menubar);
+     //vbox->add(*menubar);
 
     //     F I L E
     // Create a File menu and add to the menu bar
@@ -102,31 +102,10 @@ Mainwin::~Mainwin() { }
 // /////////////////
 
 // COMBINED observer / callback
-void Mainwin::on_button_click(int button) {
-    try {
-        // Catch the "impossible" out of sticks exception
-        store->take_sticks(button);
-        set_sticks();
-    }
-    catch (std::exception & e) {
-        sticks->set_markup("<b>FAIL:</b> " + std::string{ e.what() } +", start new game");
-    }
-}
 
-void Mainwin::on_computer_player_click() {
-    set_sticks();
+void Mainwin::on_quit_click(){
+	close();
 }
-
-void Mainwin::on_new_game_click() {
-    delete nim;
-    nim = new Nim();
-    set_sticks();
-}
-
-void Mainwin::on_quit_click() {
-    close();
-}
-
 void Mainwin::on_view_peripheral_click()
 {
 }
@@ -155,16 +134,6 @@ void Mainwin::on_insert_order_click()
 {
 }
 
-void Mainwin::on_rules_click() {
-    Glib::ustring s = R"(
-<span size='24000' weight='bold'>The Rules of Nim</span>
-<span size='large'>Copyright 2017-2020 by George F. Rice - CC BY 4.0</span>
-
-The two players alternate taking 1 to 3 sticks from the pile. The goal is to force your opponent to take the last stick (called misère rules).
-
-If the computer button is up, it's a two player game. If down, the computer is always Player 2.)";
-    Gtk::MessageDialog{ *this, s, true }.run(); // 'true' as 3rd parameter enables Pango markup
-}
 
 void Mainwin::on_about_click() {
     Gtk::AboutDialog dialog;
