@@ -18,6 +18,7 @@ protected:
 	void on_insert_peripheral_click();//
 	void on_insert_desktop_click();//
 	void on_insert_order_click();//
+	void on_insert_customer_click();
 	void on_about_click();// done
 	std::string get_string(std::string prompt);//
 	double get_double(std::string prompt);//
