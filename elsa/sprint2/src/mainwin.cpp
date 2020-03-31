@@ -11,7 +11,7 @@ Mainwin::Mainwin() : store{ nullptr } {
 
 
 
-	set_default_size(800, 200);
+	set_default_size(600, 400);
 	set_title("ELSA");
 
     // Put a vertical box container as the Window contents
@@ -29,26 +29,26 @@ Mainwin::Mainwin() : store{ nullptr } {
     // Create a File menu and add to the menu bar
     Gtk::MenuItem* menuitem_file = Gtk::manage(new Gtk::MenuItem("_File", true));
     menubar->append(*menuitem_file);
-    Gtk::Menu* filemenu = Gtk::manage(new Gtk::Menu());
+    Gtk::Menu *filemenu = Gtk::manage(new Gtk::Menu());
     menuitem_file->set_submenu(*filemenu);
 
     // V I E W
     Gtk::MenuItem* menuitem_view = Gtk::manage(new Gtk::MenuItem("_View", true));
     menubar->append(*menuitem_view);
-    Gtk::Menu* viewmenu = Gtk::manage(new Gtk::Menu());
+    Gtk::Menu *viewmenu = Gtk::manage(new Gtk::Menu());
     menuitem_view->set_submenu(*viewmenu);
 
     // I N S E R T
     Gtk::MenuItem* menuitem_insert = Gtk::manage(new Gtk::MenuItem("_Insert", true));
     menubar->append(*menuitem_insert);
     Gtk::Menu* insertmenu = Gtk::manage(new Gtk::Menu());
-    menuitem_view->set_submenu(*insertmenu);
+    menuitem_insert->set_submenu(*insertmenu);
 
     // H E L P
     Gtk::MenuItem* menuitem_help = Gtk::manage(new Gtk::MenuItem("_Help", true));
     menubar->append(*menuitem_help);
     Gtk::Menu* helpmenu = Gtk::manage(new Gtk::Menu());
-    menuitem_view->set_submenu(*helpmenu);
+    menuitem_help->set_submenu(*helpmenu);
 
     //         Q U I T
     // Append Quit to the File menu
@@ -65,32 +65,37 @@ Mainwin::Mainwin() : store{ nullptr } {
 
     // C U S T O M E R
     Gtk::MenuItem* menuitem_customer = Gtk::manage(new Gtk::MenuItem("_Customer", true));
-    menuitem_about->signal_activate().connect([this] {this->on_view_customer_click(); });
-    helpmenu->append(*menuitem_customer);
+    menuitem_customer->signal_activate().connect([this] {this->on_view_customer_click(); });
+    viewmenu->append(*menuitem_customer);
 
     // P E R I P H E R A L
     Gtk::MenuItem* menuitem_peripheral = Gtk::manage(new Gtk::MenuItem("_Peripheral", true));
-    menuitem_about->signal_activate().connect([this] {this->on_view_peripheral_click(); });
-    helpmenu->append(*menuitem_peripheral);
+    menuitem_peripheral->signal_activate().connect([this] {this->on_view_peripheral_click(); });
+    viewmenu->append(*menuitem_peripheral);
 
-    // C U S T O M E R
+    // D E S K T O P
     Gtk::MenuItem* menuitem_desktop = Gtk::manage(new Gtk::MenuItem("_Desktop", true));
-    menuitem_about->signal_activate().connect([this] {this->on_view_desktop_click(); });
-    helpmenu->append(*menuitem_desktop);
+    menuitem_desktop->signal_activate().connect([this] {this->on_view_desktop_click(); });
+    viewmenu->append(*menuitem_desktop);
 
     // O R D E R
     Gtk::MenuItem* menuitem_order = Gtk::manage(new Gtk::MenuItem("_Order", true));
-    menuitem_about->signal_activate().connect([this] {this->on_view_order_clicK(); });
-    helpmenu->append(*menuitem_order);
+    menuitem_order->signal_activate().connect([this] {this->on_view_order_clicK(); });
+    viewmenu->append(*menuitem_order);
 
 
     // ///////////// //////////////////////////////////////////////////////////
     // T O O L B A R
     // Add a toolbar to the vertical box below the menu
-    //Gtk::Toolbar* toolbar = Gtk::manage(new Gtk::Toolbar);
-    //vbox->pack_start(*toolbar, Gtk::PACK_SHRINK, 0);
+    Gtk::Toolbar* toolbar = Gtk::manage(new Gtk::Toolbar);
+    vbox->pack_start(*toolbar, Gtk::PACK_SHRINK, 0);
     // vbox->add(*toolbar);
 
+// STATUS BAR
+msg = Gtk::manage(new Gtk::Label());
+msg->set_hexpand(true);
+vbox->pack_start(*msg, Gtk::PACK_SHRINK, 0);
+vbox->show_all();
 
 
 }
@@ -108,6 +113,7 @@ void Mainwin::on_quit_click(){
 }
 void Mainwin::on_view_peripheral_click()
 {
+
 }
 
 void Mainwin::on_view_desktop_click()
@@ -138,7 +144,7 @@ void Mainwin::on_insert_order_click()
 void Mainwin::on_about_click() {
     Gtk::AboutDialog dialog;
     dialog.set_transient_for(*this); // Avoid the discouraging warning
-    dialog.set_program_name("Store");
+    dialog.set_program_name("ELSA");
     auto logo = Gdk::Pixbuf::create_from_file("macrohard.png");
     dialog.set_logo(logo);
     dialog.set_version("Version 1.2.1");
@@ -147,7 +153,7 @@ void Mainwin::on_about_click() {
     std::vector< Glib::ustring > authors = { "Jason Shamayev" };
     dialog.set_authors(authors);
     std::vector< Glib::ustring > artists = {
-        "Logo by M0tty, licensed under CC BY-SA 3.0 https://commons.wikimedia.org/wiki/File:Pyramidal_matches.svg",
+        "Logo by Jason Shamayev, licensed under Macrohard",
         "Robot by FreePik.com, licensed for personal and commercial purposes with attribution https://www.freepik.com/free-vector/grey-robot-silhouettes_714902.htm" };
     dialog.set_artists(artists);
     dialog.run();
