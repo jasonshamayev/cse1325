@@ -23,7 +23,7 @@ protected:
 	double get_double(std::string prompt);
 	int get_int(std::string prompt);
 	void set_data(std::string s);
-	void set_msg(std::string s)
+	void set_msg(std::string s);
 
 private:
 	Store* store;
