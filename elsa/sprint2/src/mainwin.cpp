@@ -288,7 +288,11 @@ void Mainwin::on_about_click() {
 
 std::string Mainwin::get_string(std::string prompt)
 {
+<<<<<<< HEAD
   
+=======
+    std::string EntryDialog
+>>>>>>> ec8d88fb41fe3fab0358cef7a9247edc720ed43a
 }
 
 double Mainwin::get_double(std::string prompt)
@@ -303,10 +307,20 @@ int Mainwin::get_int(std::string prompt)
 
 void Mainwin::set_data(std::string s)
 {
+    data->set_markup(s);
+    s = "<span size='24000' weight='bold'>";
 }
 
 void Mainwin::set_msg(std::string s)
 {
+    // Display the collected status on the status bar
+    msg->set_markup(s);
+
+    // Update the visual display of sticks
+    s = "<span size='24000' weight='bold'>";
+    for (int i = 0; i < store->sticks_left(); ++i) s.append("| ");
+    s.append("</span>  (" + std::to_string(nim->sticks_left()) + " sticks)");
+    sticks->set_markup(s);
 }
 
 
