@@ -3,7 +3,7 @@
 #include "entrydialog.h"
 #include <iostream>
 #include <gtkmm.h>
-
+#include <ssteam>
 
 Mainwin::Mainwin() : store{ nullptr } {
 
@@ -50,9 +50,39 @@ Mainwin::Mainwin() : store{ nullptr } {
     Gtk::Menu* helpmenu = Gtk::manage(new Gtk::Menu());
     menuitem_view->set_submenu(*helpmenu);
 
+    //         Q U I T
+    // Append Quit to the File menu
+    Gtk::MenuItem* menuitem_quit = Gtk::manage(new Gtk::MenuItem("_Quit", true));
+    menuitem_quit->signal_activate().connect([this] {this->on_quit_click(); });
+    filemenu->append(*menuitem_quit);
 
 
-\
+    //           A B O U T
+    // Append About to the Help menu
+    Gtk::MenuItem* menuitem_about = Gtk::manage(new Gtk::MenuItem("_About", true));
+    menuitem_about->signal_activate().connect([this] {this->on_about_click(); });
+    helpmenu->append(*menuitem_about);
+
+    // C U S T O M E R
+    Gtk::MenuItem* menuitem_customer = Gtk::manage(new Gtk::MenuItem("_Customer", true));
+    menuitem_about->signal_activate().connect([this] {this->on_view_customer_click(); });
+    helpmenu->append(*menuitem_customer);
+
+    // P E R I P H E R A L
+    Gtk::MenuItem* menuitem_peripheral = Gtk::manage(new Gtk::MenuItem("_Peripheral", true));
+    menuitem_about->signal_activate().connect([this] {this->on_view_peripheral_click(); });
+    helpmenu->append(*menuitem_peripheral);
+
+    // C U S T O M E R
+    Gtk::MenuItem* menuitem_desktop = Gtk::manage(new Gtk::MenuItem("_Desktop", true));
+    menuitem_about->signal_activate().connect([this] {this->on_view_desktop_click(); });
+    helpmenu->append(*menuitem_desktop);
+
+    // O R D E R
+    Gtk::MenuItem* menuitem_order = Gtk::manage(new Gtk::MenuItem("_Order", true));
+    menuitem_about->signal_activate().connect([this] {this->on_view_order_clicK(); });
+    helpmenu->append(*menuitem_order);
+
 
     // ///////////// //////////////////////////////////////////////////////////
     // T O O L B A R
