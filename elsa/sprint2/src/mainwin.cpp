@@ -1,6 +1,9 @@
-#include <mainwin.h>
+#include "mainwin.h"
+#include "store.h"
+#include "entrydialog.h"
 #include <iostream>
-#include <ssteam>
+#include <gtkmm.h>
+
 
 Mainwin::Mainwin() : store{ nullptr } {
 
@@ -72,7 +75,7 @@ Mainwin::~Mainwin() { }
 void Mainwin::on_button_click(int button) {
     try {
         // Catch the "impossible" out of sticks exception
-        nim->take_sticks(button);
+        store->take_sticks(button);
         set_sticks();
     }
     catch (std::exception & e) {
@@ -94,6 +97,34 @@ void Mainwin::on_quit_click() {
     close();
 }
 
+void Mainwin::on_view_peripheral_click()
+{
+}
+
+void Mainwin::on_view_desktop_click()
+{
+}
+
+void Mainwin::on_view_order_clicK()
+{
+}
+
+void Mainwin::on_view_customer_click()
+{
+}
+
+void Mainwin::on_insert_peripheral_click()
+{
+}
+
+void Mainwin::on_insert_desktop_click()
+{
+}
+
+void Mainwin::on_insert_order_click()
+{
+}
+
 void Mainwin::on_rules_click() {
     Glib::ustring s = R"(
 <span size='24000' weight='bold'>The Rules of Nim</span>
@@ -108,13 +139,13 @@ If the computer button is up, it's a two player game. If down, the computer is a
 void Mainwin::on_about_click() {
     Gtk::AboutDialog dialog;
     dialog.set_transient_for(*this); // Avoid the discouraging warning
-    dialog.set_program_name("Nim");
-    auto logo = Gdk::Pixbuf::create_from_file("128px-Pyramidal_matches.png");
+    dialog.set_program_name("Store");
+    auto logo = Gdk::Pixbuf::create_from_file("macrohard.png");
     dialog.set_logo(logo);
     dialog.set_version("Version 1.2.1");
-    dialog.set_copyright("Copyright 2017-2020");
+    dialog.set_copyright("2020");
     dialog.set_license_type(Gtk::License::LICENSE_GPL_3_0);
-    std::vector< Glib::ustring > authors = { "George F. Rice" };
+    std::vector< Glib::ustring > authors = { "Jason Shamayev" };
     dialog.set_authors(authors);
     std::vector< Glib::ustring > artists = {
         "Logo by M0tty, licensed under CC BY-SA 3.0 https://commons.wikimedia.org/wiki/File:Pyramidal_matches.svg",
@@ -123,53 +154,32 @@ void Mainwin::on_about_click() {
     dialog.run();
 }
 
+std::string Mainwin::get_string(std::string prompt)
+{
+    return std::string();
+}
+
+double Mainwin::get_double(std::string prompt)
+{
+    return 0.0;
+}
+
+int Mainwin::get_int(std::string prompt)
+{
+    return 0;
+}
+
+void Mainwin::set_data(std::string s)
+{
+}
+
+void Mainwin::set_msg(std::string s)
+{
+}
+
 // /////////////////
 // U T I L I T I E S
 // /////////////////
 
-void Mainwin::set_sticks() {
-    // s collects the status message
-    Glib::ustring s = "";
-
-    // If the robot is enabled and it's their turn, move the robot
-    if (nim->sticks_left() > 0) {
-        if (computer_player->get_active() && nim->current_player() == 2) {
-            int move = 1;
-            try {
-                move = nim->optimal_move();      // "Impossible" exception warning
-            }
-            catch (std::exception & e) {         // If it happens, log an error
-                std::cerr << "Invalid optimal move: " << e.what() << std::endl;
-            }
-            s += "Robot plays " + std::to_string(move) + ", ";
-            nim->take_sticks(move);
-        }
-    }
-
-    // Report who's turn it is, or (if all sticks gone) who won
-    if (nim->sticks_left() > 0) {
-        s += "Player " + std::to_string(nim->current_player()) + "'s turn";
-    }
-    else {
-        s += "<span size='16000' weight='bold'>Player "
-            + std::to_string(3 - nim->current_player())
-            + " wins!</span>";
-    }
-
-    // Display the collected status on the status bar
-    msg->set_markup(s);
-
-    // Update the visual display of sticks
-    s = "<span size='24000' weight='bold'>";
-    for (int i = 0; i < nim->sticks_left(); ++i) s.append("| ");
-    s.append("</span>  (" + std::to_string(nim->sticks_left()) + " sticks)");
-    sticks->set_markup(s);
-
-    // Set sensitivity of the human stick selectors so user can't make an illegal move
-    button1->set_sensitive(nim->sticks_left() > 0);
-    button2->set_sensitive(nim->sticks_left() > 1);
-    button3->set_sensitive(nim->sticks_left() > 2);
-}
 
 
-}
