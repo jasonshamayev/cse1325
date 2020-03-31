@@ -5,6 +5,8 @@
 #include <gtkmm.h>
 #include <sstream>
 
+std::ostringstream oss;
+
 Mainwin::Mainwin() : store{ nullptr } {
 
 
@@ -62,7 +64,7 @@ Mainwin::Mainwin() : store{ nullptr } {
     Gtk::MenuItem* menuitem_about = Gtk::manage(new Gtk::MenuItem("_About", true));
     menuitem_about->signal_activate().connect([this] {this->on_about_click(); });
     helpmenu->append(*menuitem_about);
-
+//  VIEW
     // C U S T O M E R
     Gtk::MenuItem* menuitem_customer = Gtk::manage(new Gtk::MenuItem("_Customer", true));
     menuitem_customer->signal_activate().connect([this] {this->on_view_customer_click(); });
@@ -83,6 +85,26 @@ Mainwin::Mainwin() : store{ nullptr } {
     menuitem_order->signal_activate().connect([this] {this->on_view_order_clicK(); });
     viewmenu->append(*menuitem_order);
 
+// INSERT
+    // C U S T O M E R
+    Gtk::MenuItem* menuitem_customer2 = Gtk::manage(new Gtk::MenuItem("_Customer", true));
+    menuitem_customer2->signal_activate().connect([this] {this->on_insert_customer_click(); });
+    insertmenu->append(*menuitem_customer2);
+
+    // P E R I P H E R A L
+    Gtk::MenuItem* menuitem_peripheral2 = Gtk::manage(new Gtk::MenuItem("_Peripheral", true));
+    menuitem_peripheral2->signal_activate().connect([this] {this->on_insert_peripheral_click(); });
+    insertmenu->append(*menuitem_peripheral2);
+
+    // D E S K T O P
+    Gtk::MenuItem* menuitem_desktop2 = Gtk::manage(new Gtk::MenuItem("_Desktop", true));
+    menuitem_desktop2->signal_activate().connect([this] {this->on_insert_desktop_click(); });
+    insertmenu->append(*menuitem_desktop2);
+
+    // O R D E R
+    Gtk::MenuItem* menuitem_order2 = Gtk::manage(new Gtk::MenuItem("_Order", true));
+    menuitem_order2->signal_activate().connect([this] {this->on_insert_order_click(); });
+    insertmenu->append(*menuitem_order2);
 
     // ///////////// //////////////////////////////////////////////////////////
     // T O O L B A R
@@ -112,28 +134,33 @@ void Mainwin::on_quit_click(){
 	close();
 }
 void Mainwin::on_view_peripheral_click()
-{
-    for (int i = 0; i < store.num_options(); ++i)
-        std::cout << i << ") " << store.option(i) << "\n";
+{ 
+    for (int i = 0; i < store->num_options(); ++i)
+       oss << i << ") " << store->option(i) << "\n" << oss.str();
+	delete store;
 
 }
 
 void Mainwin::on_view_desktop_click()
 {
-    for (int i = 0; i < store.num_desktops(); ++i)
-        std::cout << i << ") " << store.desktop(i) << "\n";
+    for (int i = 0; i < store->num_desktops(); ++i)
+        std::cout << i << ") " << store->desktop(i) << "\n" << oss.str();
+	delete store;
 }
 
 void Mainwin::on_view_order_clicK()
 {
-    for (int i = 0; i < store.num_orders(); ++i)
-        std::cout << i << ") " << store.order(i) << "\n";
+    for (int i = 0; i < store->num_orders(); ++i)
+        std::cout << i << ") " << store->order(i) << "\n" << oss.str();
+	delete store;
 }
 
 void Mainwin::on_view_customer_click()
 {
-    for (int i = 0; i < store.num_customers(); ++i)
-        std::cout << i << ") " << store.customer(i) << "\n";
+	
+    for (int i = 0; i < store->num_customers(); ++i)
+        oss << i << ") " << store->customer(i) << "\n" << oss.str();
+	delete store;
     
 }
 
@@ -146,32 +173,33 @@ void Mainwin::on_insert_peripheral_click()
     double cost;
     if (std::cin >> cost) {
         Options option{ s, cost };
-        store.add_option(option);
+        store->add_option(option);
     }
     else {
         std::cin.clear();
         std::cerr << "#### INVALID PRICE ####\n\n";
         std::cin.ignore(32767, '\n');
-        }
+        } 
 }
 
 void Mainwin::on_insert_desktop_click()
 {
-    int desktop = store.new_desktop();
+    int desktop = store->new_desktop();
     while (true) {
-        std::cout << store.desktop(desktop) << "\n\n";
-        for (int i = 0; i < store.num_options(); ++i)
-            std::cout << i << ") " << store.option(i) << '\n';
+        std::cout << store->desktop(desktop) << "\n\n";
+        for (int i = 0; i < store->num_options(); ++i)
+            std::cout << i << ") " << store->option(i) << '\n';
         std::cout << "\nAdd which peripheral (-1 when done)? ";
         int option;
         std::cin >> option; std::cin.ignore(32767, '\n');
         if (option == -1) break;
         try {
-            store.add_option(option, desktop);
+            store->add_option(option, desktop);
         }
         catch (std::exception & e) {
             std::cerr << "#### INVALID OPTION ####\n\n";
-        }
+        } 
+}
 }
 
 void Mainwin::on_insert_order_click()
@@ -180,13 +208,13 @@ void Mainwin::on_insert_order_click()
     int order = -1;
     int desktop = -1;
     try {
-        for (int i = 0; i < store.num_customers(); ++i)
-            std::cout << i << ") " << store.customer(i) << '\n';
+        for (int i = 0; i < store->num_customers(); ++i)
+            std::cout << i << ") " << store->customer(i) << '\n';
         std::cout << "Customer? ";
         std::cin >> customer; std::cin.ignore(32767, '\n');
-        std::cout << store.customer(customer) << '\n';
+        std::cout << store->customer(customer) << '\n';
 
-        order = store.new_order(customer);
+        order = store->new_order(customer);
         std::cout << "Order " << order
             << " created for Customer " << customer << std::endl;
         desktop = 0;
@@ -197,13 +225,13 @@ void Mainwin::on_insert_order_click()
     }
 
     while (desktop >= 0) {
-        for (int i = 0; i < store.num_desktops(); ++i)
-            std::cout << i << ") " << store.desktop(i) << '\n';
+        for (int i = 0; i < store->num_desktops(); ++i)
+            std::cout << i << ") " << store->desktop(i) << '\n';
         std::cout << "Desktop (-1 when done)? ";
         std::cin >> desktop; std::cin.ignore(32767, '\n');
         if (desktop == -1) break;
         try {
-            store.add_desktop(desktop, order);
+            store->add_desktop(desktop, order);
         }
         catch (std::exception & e) {
             std::cerr << "#### UNABLE TO ADD DESKTOP " << desktop
@@ -214,11 +242,11 @@ void Mainwin::on_insert_order_click()
 
     if (order >= 0)
         std::cout << "\n++++ Order " << order << " Placed ++++\n"
-        << store.order(order);
+        << store->order(order); 
 }
 
 void Mainwin::on_insert_customer_click()
-{
+{ 
     std::cout << "Customer name? ";
     std::string name;
     std::getline(std::cin, name);
@@ -230,8 +258,8 @@ void Mainwin::on_insert_customer_click()
         std::string email;
         std::getline(std::cin, email);
         Customer customer{ name, phone, email };
-        store.add_customer(customer);
-    }
+        store->add_customer(customer);
+    } 
 }
 
 
@@ -250,7 +278,7 @@ void Mainwin::on_about_click() {
         "Logo by Jason Shamayev, licensed under Macrohard",
         "Robot by FreePik.com, licensed for personal and commercial purposes with attribution https://www.freepik.com/free-vector/grey-robot-silhouettes_714902.htm" };
     dialog.set_artists(artists);
-    dialog.run();
+    dialog.run(); 
 }
 
 // /////////////////
@@ -260,11 +288,11 @@ void Mainwin::on_about_click() {
 
 std::string Mainwin::get_string(std::string prompt)
 {
-
+  
 }
 
 double Mainwin::get_double(std::string prompt)
-{
+{ 
     return 0.0;
 }
 
