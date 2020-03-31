@@ -113,31 +113,125 @@ void Mainwin::on_quit_click(){
 }
 void Mainwin::on_view_peripheral_click()
 {
+    for (int i = 0; i < store.num_options(); ++i)
+        std::cout << i << ") " << store.option(i) << "\n";
 
 }
 
 void Mainwin::on_view_desktop_click()
 {
+    for (int i = 0; i < store.num_desktops(); ++i)
+        std::cout << i << ") " << store.desktop(i) << "\n";
 }
 
 void Mainwin::on_view_order_clicK()
 {
+    for (int i = 0; i < store.num_orders(); ++i)
+        std::cout << i << ") " << store.order(i) << "\n";
 }
 
 void Mainwin::on_view_customer_click()
 {
+    for (int i = 0; i < store.num_customers(); ++i)
+        std::cout << i << ") " << store.customer(i) << "\n";
+    
 }
 
 void Mainwin::on_insert_peripheral_click()
 {
+    std::cout << "Name of new peripheral? ";
+    std::string s;
+    std::getline(std::cin, s);
+    std::cout << "Cost? ";
+    double cost;
+    if (std::cin >> cost) {
+        Options option{ s, cost };
+        store.add_option(option);
+    }
+    else {
+        std::cin.clear();
+        std::cerr << "#### INVALID PRICE ####\n\n";
+        std::cin.ignore(32767, '\n');
+        }
 }
 
 void Mainwin::on_insert_desktop_click()
 {
+    int desktop = store.new_desktop();
+    while (true) {
+        std::cout << store.desktop(desktop) << "\n\n";
+        for (int i = 0; i < store.num_options(); ++i)
+            std::cout << i << ") " << store.option(i) << '\n';
+        std::cout << "\nAdd which peripheral (-1 when done)? ";
+        int option;
+        std::cin >> option; std::cin.ignore(32767, '\n');
+        if (option == -1) break;
+        try {
+            store.add_option(option, desktop);
+        }
+        catch (std::exception & e) {
+            std::cerr << "#### INVALID OPTION ####\n\n";
+        }
 }
 
 void Mainwin::on_insert_order_click()
 {
+    int customer = -1;
+    int order = -1;
+    int desktop = -1;
+    try {
+        for (int i = 0; i < store.num_customers(); ++i)
+            std::cout << i << ") " << store.customer(i) << '\n';
+        std::cout << "Customer? ";
+        std::cin >> customer; std::cin.ignore(32767, '\n');
+        std::cout << store.customer(customer) << '\n';
+
+        order = store.new_order(customer);
+        std::cout << "Order " << order
+            << " created for Customer " << customer << std::endl;
+        desktop = 0;
+    }
+    catch (std::exception & e) {
+        std::cerr << "#### UNABLE TO CREATE ORDER FOR CUSTOMER "
+            << customer << " ####\n\n";
+    }
+
+    while (desktop >= 0) {
+        for (int i = 0; i < store.num_desktops(); ++i)
+            std::cout << i << ") " << store.desktop(i) << '\n';
+        std::cout << "Desktop (-1 when done)? ";
+        std::cin >> desktop; std::cin.ignore(32767, '\n');
+        if (desktop == -1) break;
+        try {
+            store.add_desktop(desktop, order);
+        }
+        catch (std::exception & e) {
+            std::cerr << "#### UNABLE TO ADD DESKTOP " << desktop
+                << " TO ORDER " << order << std::endl;
+            desktop = 0;
+        }
+    }
+
+    if (order >= 0)
+        std::cout << "\n++++ Order " << order << " Placed ++++\n"
+        << store.order(order);
+}
+
+void Mainwin::on_insert_customer_click()
+{
+    std::cout << "Customer name? ";
+    std::string name;
+    std::getline(std::cin, name);
+    if (name.size()) {
+        std::cout << "Customer phone (xxx-xxx-xxxx)? ";
+        std::string phone;
+        std::getline(std::cin, phone);
+        std::cout << "Customer email (xxx@domain.com)? ";
+        std::string email;
+        std::getline(std::cin, email);
+        Customer customer{ name, phone, email };
+        store.add_customer(customer);
+    }
 }
 
 
@@ -158,6 +252,11 @@ void Mainwin::on_about_click() {
     dialog.set_artists(artists);
     dialog.run();
 }
+
+// /////////////////
+// U T I L I T I E S
+// /////////////////
+
 
 std::string Mainwin::get_string(std::string prompt)
 {
@@ -181,10 +280,6 @@ void Mainwin::set_data(std::string s)
 void Mainwin::set_msg(std::string s)
 {
 }
-
-// /////////////////
-// U T I L I T I E S
-// /////////////////
 
 
 
