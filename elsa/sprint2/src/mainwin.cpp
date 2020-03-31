@@ -161,7 +161,7 @@ void Mainwin::on_about_click() {
 
 std::string Mainwin::get_string(std::string prompt)
 {
-    return std::string();
+
 }
 
 double Mainwin::get_double(std::string prompt)
