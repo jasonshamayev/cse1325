@@ -8,8 +8,8 @@ Mainwin::Mainwin() : store{ nullptr } {
 
 
 
-	set_default_size(400, 200);
-	set_title("The Store");
+	set_default_size(800, 200);
+	set_title("Products");
 
     // Put a vertical box container as the Window contents
     Gtk::Box* vbox = Gtk::manage(new Gtk::VBox);
@@ -29,119 +29,37 @@ Mainwin::Mainwin() : store{ nullptr } {
     Gtk::Menu* filemenu = Gtk::manage(new Gtk::Menu());
     menuitem_file->set_submenu(*filemenu);
 
-    //         N E W   G A M E
-    // Append New to the File menu
-    Gtk::MenuItem* menuitem_new = Gtk::manage(new Gtk::MenuItem("_New Game", true));
-    menuitem_new->signal_activate().connect([this] {this->on_new_game_click(); });
-    filemenu->append(*menuitem_new);
+    // V I E W
+    Gtk::MenuItem* menuitem_view = Gtk::manage(new Gtk::MenuItem("_View", true));
+    menubar->append(*menuitem_view);
+    Gtk::Menu* viewmenu = Gtk::manage(new Gtk::Menu());
+    menuitem_view->set_submenu(*viewmenu);
 
-    //         Q U I T
-    // Append Quit to the File menu
-    Gtk::MenuItem* menuitem_quit = Gtk::manage(new Gtk::MenuItem("_Quit", true));
-    menuitem_quit->signal_activate().connect([this] {this->on_quit_click(); });
-    filemenu->append(*menuitem_quit);
+    // I N S E R T
+    Gtk::MenuItem* menuitem_insert = Gtk::manage(new Gtk::MenuItem("_Insert", true));
+    menubar->append(*menuitem_insert);
+    Gtk::Menu* insertmenu = Gtk::manage(new Gtk::Menu());
+    menuitem_view->set_submenu(*insertmenu);
 
-    //     H E L P
-    // Create a Help menu and add to the menu bar
+    // H E L P
     Gtk::MenuItem* menuitem_help = Gtk::manage(new Gtk::MenuItem("_Help", true));
     menubar->append(*menuitem_help);
     Gtk::Menu* helpmenu = Gtk::manage(new Gtk::Menu());
-    menuitem_help->set_submenu(*helpmenu);
+    menuitem_view->set_submenu(*helpmenu);
 
-    //           R U L E S
-    // Append Rules to the Help menu
-    Gtk::MenuItem* menuitem_rules = Gtk::manage(new Gtk::MenuItem("_Rules", true));
-    menuitem_rules->signal_activate().connect([this] {this->on_rules_click(); });
-    helpmenu->append(*menuitem_rules);
 
-    //           A B O U T
-    // Append About to the Help menu
-    Gtk::MenuItem* menuitem_about = Gtk::manage(new Gtk::MenuItem("_About", true));
-    menuitem_about->signal_activate().connect([this] {this->on_about_click(); });
-    helpmenu->append(*menuitem_about);
+
+\
 
     // ///////////// //////////////////////////////////////////////////////////
     // T O O L B A R
     // Add a toolbar to the vertical box below the menu
-    Gtk::Toolbar* toolbar = Gtk::manage(new Gtk::Toolbar);
-    vbox->pack_start(*toolbar, Gtk::PACK_SHRINK, 0);
+    //Gtk::Toolbar* toolbar = Gtk::manage(new Gtk::Toolbar);
+    //vbox->pack_start(*toolbar, Gtk::PACK_SHRINK, 0);
     // vbox->add(*toolbar);
 
-    //     N E W   G A M E
-    // Add a new game icon
-    Gtk::ToolButton* new_game_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::NEW));
-    new_game_button->set_tooltip_markup("Create a new game, discarding any in progress");
-    new_game_button->signal_clicked().connect([this] {this->on_new_game_click(); });
-    toolbar->append(*new_game_button);
 
-    //     O N E   S T I C K
-    // Add an icon for taking one stick
-    Gtk::Image* button1_image = Gtk::manage(new Gtk::Image{ "button1.png" });
-    button1 = Gtk::manage(new Gtk::ToolButton(*button1_image));
-    button1->set_tooltip_markup("Select one stick");
-    button1->signal_clicked().connect([this] {this->on_button_click(1); });
-    toolbar->append(*button1);
 
-    //     T W O   S T I C K S
-    // Add an icon for taking two sticks
-    Gtk::Image* button2_image = Gtk::manage(new Gtk::Image{ "button2.png" });
-    button2 = Gtk::manage(new Gtk::ToolButton(*button2_image));
-    button2->set_tooltip_markup("Select two sticks");
-    button2->signal_clicked().connect([this] {this->on_button_click(2); });
-    toolbar->append(*button2);
-
-    //     T H R E E   S T I C K S
-    // Add an icon for taking three sticks
-    Gtk::Image* button3_image = Gtk::manage(new Gtk::Image{ "button3.png" });
-    button3 = Gtk::manage(new Gtk::ToolButton(*button3_image));
-    button3->set_tooltip_markup("Select three sticks");
-    button3->signal_clicked().connect([this] {this->on_button_click(3); });
-    toolbar->append(*button3);
-
-    //     C O M P U T E R   P L A Y E R
-    // Add a little space between the 3 stick buttons and computer player
-    Gtk::SeparatorToolItem* sep1 = Gtk::manage(new Gtk::SeparatorToolItem());
-    toolbar->append(*sep1);
-
-    // Add a toggle button to enable computer to play as Player 2
-    Gtk::Image* robot_image = Gtk::manage(new Gtk::Image{ "freepik_robot.png" });
-    computer_player = Gtk::manage(new Gtk::ToggleToolButton(*robot_image));
-    computer_player->set_tooltip_markup("Enable for computer to be Player 2");
-    computer_player->signal_clicked().connect([this] {this->on_computer_player_click(); });
-    toolbar->append(*computer_player);
-
-    //     Q U I T
-    // Push the quit botton all the way to the right by setting set_expand true
-    Gtk::SeparatorToolItem* sep = Gtk::manage(new Gtk::SeparatorToolItem());
-    sep->set_expand(true);
-    toolbar->append(*sep);
-
-    // Add a icon for quitting
-    Gtk::ToolButton* quit_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::QUIT));
-    quit_button->set_tooltip_markup("Exit game");
-    quit_button->signal_clicked().connect([this] {this->on_quit_click(); });
-    toolbar->append(*quit_button);
-
-    // /////////////////////////// ////////////////////////////////////////////
-    // S T I C K S   D I S P L A Y
-    // Provide a text entry box to show the remaining sticks
-    sticks = Gtk::manage(new Gtk::Label());
-    sticks->set_hexpand(true);
-    sticks->set_vexpand(true);
-    vbox->add(*sticks);
-
-    // S T A T U S   B A R   D I S P L A Y ////////////////////////////////////
-    // Provide a status bar for game messages
-    msg = Gtk::manage(new Gtk::Label());
-    msg->set_hexpand(true);
-    vbox->pack_start(*msg, Gtk::PACK_SHRINK, 0);
-    // vbox->add(*msg);
-
-    // Make the box and everything in it visible
-    vbox->show_all();
-
-    // Start a new game
-    on_new_game_click();
 }
 
 Mainwin::~Mainwin() { }
