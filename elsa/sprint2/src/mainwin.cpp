@@ -4,10 +4,9 @@
 #include <iostream>
 #include <gtkmm.h>
 #include <sstream>
+#include <iomanip>
 
-std::ostringstream oss;
-
-Mainwin::Mainwin() : store{ nullptr } {
+Mainwin::Mainwin() : store{new Store} {
 
 
 
@@ -51,6 +50,12 @@ Mainwin::Mainwin() : store{ nullptr } {
     menubar->append(*menuitem_help);
     Gtk::Menu* helpmenu = Gtk::manage(new Gtk::Menu());
     menuitem_help->set_submenu(*helpmenu);
+
+   //           E A S T E R
+   // Append Easter Egg to the Help menu
+    Gtk::MenuItem* menuitem_easter = Gtk::manage(new Gtk::MenuItem("_Easter Egg", true));
+    menuitem_easter->signal_activate().connect([this] {this->on_easter_egg_click(); });
+    helpmenu->append(*menuitem_easter);
 
     //         Q U I T
     // Append Quit to the File menu
@@ -106,18 +111,27 @@ Mainwin::Mainwin() : store{ nullptr } {
     menuitem_order2->signal_activate().connect([this] {this->on_insert_order_click(); });
     insertmenu->append(*menuitem_order2);
 
-    // ///////////// //////////////////////////////////////////////////////////
-    // T O O L B A R
-    // Add a toolbar to the vertical box below the menu
-    Gtk::Toolbar* toolbar = Gtk::manage(new Gtk::Toolbar);
-    vbox->pack_start(*toolbar, Gtk::PACK_SHRINK, 0);
-    // vbox->add(*toolbar);
+    // D A T A   D I S P L A Y
+    data = Gtk::manage(new Gtk::Label{ "", Gtk::ALIGN_START, Gtk::ALIGN_START });
+    data->set_hexpand();
+    // A Gtk::Label is intrinsically transparent - it's background color cannot be set
+    // Therefore, we add it to a Gtk::EventBox with background color overridden to white
+    Gtk::EventBox* eb = Gtk::manage(new Gtk::EventBox);
+    eb->set_hexpand();
+    eb->override_background_color(Gdk::RGBA("white"));
+    eb->add(*data);
+    // PACK_EXPAND_WIDGET tells VBox this widget should be as big as possible
+    vbox->pack_start(*eb, Gtk::PACK_EXPAND_WIDGET, 0);
 
-// STATUS BAR
-msg = Gtk::manage(new Gtk::Label());
-msg->set_hexpand(true);
-vbox->pack_start(*msg, Gtk::PACK_SHRINK, 0);
-vbox->show_all();
+    // S T A T U S   B A R   D I S P L A Y ////////////////////////////////////
+    // Provide a status bar for game messages
+    msg = Gtk::manage(new Gtk::Label);
+    msg->set_hexpand();
+    // PACK_SHRINK tells VBox this widget should be as small as possible
+    vbox->pack_start(*msg, Gtk::PACK_SHRINK, 0);
+
+    // Make the box and everything in it visible
+    vbox->show_all();
 
 
 }
@@ -135,131 +149,120 @@ void Mainwin::on_quit_click(){
 }
 void Mainwin::on_view_peripheral_click()
 { 
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(2);
+    oss << "<big><b>Peripherals</b></big><tt>\n\n";
     for (int i = 0; i < store->num_options(); ++i)
        oss << i << ") " << store->option(i) << "\n" << oss.str();
-	delete store;
+    oss << "</tt>";
+    set_data(oss.str());
+    set_msg("");
 
 }
 
 void Mainwin::on_view_desktop_click()
 {
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(2);
+    oss << "<big><b>Products</b></big><tt>\n\n";
     for (int i = 0; i < store->num_desktops(); ++i)
-        std::cout << i << ") " << store->desktop(i) << "\n" << oss.str();
-	delete store;
+        oss << i << ") " << store->desktop(i) << "\n";
+    oss << "</tt>";
+    set_data(oss.str());
+    set_msg("");
 }
 
 void Mainwin::on_view_order_clicK()
 {
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(2);
+    oss << "<big><b>Orders</b></big><tt>\n\n";
     for (int i = 0; i < store->num_orders(); ++i)
-        std::cout << i << ") " << store->order(i) << "\n" << oss.str();
-	delete store;
+        oss << i << ") " << store->order(i) << "\n\n";
+    oss << "</tt>";
+    set_data(oss.str());
+    set_msg("");
 }
 
 void Mainwin::on_view_customer_click()
 {
-	
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(2);
+    oss << "<big><b>Customers</b></big><tt>\n\n";
     for (int i = 0; i < store->num_customers(); ++i)
-        oss << i << ") " << store->customer(i) << "\n" << oss.str();
-	delete store;
-    
+        oss << i << ") " << store->customer(i) << "\n";
+    oss << "</tt>";
+    set_data(oss.str());
+    set_msg("");
 }
 
 void Mainwin::on_insert_peripheral_click()
 {
-    std::cout << "Name of new peripheral? ";
-    std::string s;
-    std::getline(std::cin, s);
-    std::cout << "Cost? ";
-    double cost;
-    if (std::cin >> cost) {
-        Options option{ s, cost };
-        store->add_option(option);
-    }
-    else {
-        std::cin.clear();
-        std::cerr << "#### INVALID PRICE ####\n\n";
-        std::cin.ignore(32767, '\n');
-        } 
+    std::string peripheral = get_string("Name of new peripheral?");
+    double cost = get_double("Cost?");
+
+    Options option{ peripheral, cost };
+    store->add_option(option);
+
+    on_view_peripheral_click();
+    set_msg("Added peripheral " + peripheral);
 }
 
 void Mainwin::on_insert_desktop_click()
 {
+    on_view_peripheral_click();
     int desktop = store->new_desktop();
     while (true) {
-        std::cout << store->desktop(desktop) << "\n\n";
-        for (int i = 0; i < store->num_options(); ++i)
-            std::cout << i << ") " << store->option(i) << '\n';
-        std::cout << "\nAdd which peripheral (-1 when done)? ";
-        int option;
-        std::cin >> option; std::cin.ignore(32767, '\n');
+        std::ostringstream oss;
+        oss << store->desktop(desktop) << "\n\nAdd which peripheral (-1 when done)? ";
+
+        int option = get_int(oss.str());
+
         if (option == -1) break;
         try {
             store->add_option(option, desktop);
         }
         catch (std::exception & e) {
-            std::cerr << "#### INVALID OPTION ####\n\n";
-        } 
-}
+            Gtk::MessageDialog{ *this, "#### INVALID OPTION ####\n\n" }.run();
+        }
+    }
+    on_view_desktop_click();
+    set_msg("Added desktop " + std::to_string(desktop));
 }
 
 void Mainwin::on_insert_order_click()
 {
-    int customer = -1;
-    int order = -1;
-    int desktop = -1;
-    try {
-        for (int i = 0; i < store->num_customers(); ++i)
-            std::cout << i << ") " << store->customer(i) << '\n';
-        std::cout << "Customer? ";
-        std::cin >> customer; std::cin.ignore(32767, '\n');
-        std::cout << store->customer(customer) << '\n';
+    on_view_customer_click();
 
-        order = store->new_order(customer);
-        std::cout << "Order " << order
-            << " created for Customer " << customer << std::endl;
-        desktop = 0;
-    }
-    catch (std::exception & e) {
-        std::cerr << "#### UNABLE TO CREATE ORDER FOR CUSTOMER "
-            << customer << " ####\n\n";
-    }
+    int customer = get_int("Customer?");
+    if (customer == -1) return;
 
-    while (desktop >= 0) {
-        for (int i = 0; i < store->num_desktops(); ++i)
-            std::cout << i << ") " << store->desktop(i) << '\n';
-        std::cout << "Desktop (-1 when done)? ";
-        std::cin >> desktop; std::cin.ignore(32767, '\n');
+    int order = store->new_order(customer);
+
+    on_view_desktop_click();
+    while (true) {
+        int desktop = get_int("Desktop (-1 when done)?");
+
         if (desktop == -1) break;
-        try {
-            store->add_desktop(desktop, order);
-        }
-        catch (std::exception & e) {
-            std::cerr << "#### UNABLE TO ADD DESKTOP " << desktop
-                << " TO ORDER " << order << std::endl;
-            desktop = 0;
-        }
+        store->add_desktop(desktop, order);
     }
 
-    if (order >= 0)
-        std::cout << "\n++++ Order " << order << " Placed ++++\n"
-        << store->order(order); 
+    on_view_order_click();
+    set_msg("Added order " + std::to_string(order) + " for $" + std::to_string(store->order(order).price()));
 }
 
 void Mainwin::on_insert_customer_click()
 { 
-    std::cout << "Customer name? ";
-    std::string name;
-    std::getline(std::cin, name);
+    std::string name = get_string("Customer name?");
     if (name.size()) {
-        std::cout << "Customer phone (xxx-xxx-xxxx)? ";
-        std::string phone;
-        std::getline(std::cin, phone);
-        std::cout << "Customer email (xxx@domain.com)? ";
-        std::string email;
-        std::getline(std::cin, email);
+        std::string phone = get_string("Customer phone (xxx-xxx-xxxx)?");
+        std::string email = get_string("Customer email (xxx@domain.com)?");
+
         Customer customer{ name, phone, email };
         store->add_customer(customer);
-    } 
+    }
+    on_view_customer_click();
+    set_msg("Added customer " + name);
 }
 
 
@@ -279,8 +282,52 @@ void Mainwin::on_about_click() {
         "Robot by FreePik.com, licensed for personal and commercial purposes with attribution https://www.freepik.com/free-vector/grey-robot-silhouettes_714902.htm" };
     dialog.set_artists(artists);
     dialog.run(); 
+    set_msg("");
 }
 
+void Mainwin::on_easter_egg_click() {
+    Customer c{ "Bugs Bunny", "817-ACA-RROT", "bugs@loony.tunes" };          store->add_customer(c);
+    c = Customer{ "Elastigirl", "817-STR-ETCH", "helen@incredibles.movie" }; store->add_customer(c);
+    c = Customer{ "Tuck and Roll", "817-UFI-RED2", "circus@bugs.life" };     store->add_customer(c);
+    c = Customer{ "Tiana", "817-NOG-RIMM", "princess@lily.pad" };            store->add_customer(c);
+
+    Options o{ "CPU: 2.6 GHz Xeon 6126T", 2423.47 };         store->add_option(o);
+    o = Options{ "CPU: 2.4 GHz Core i7-8565U", 388.0 };      store->add_option(o);
+    o = Options{ "CPU: 2.2 GHz AMD Opteron", 37.71 };        store->add_option(o);
+    o = Options{ "CPU: 300 MHz AM3351BZCEA30R ARM", 11.03 }; store->add_option(o);
+    o = Options{ "CPU: 240 MHz ColdFire MCF5", 17.33 };      store->add_option(o);
+
+    o = Options{ "2 GB RAM", 17.76 };                        store->add_option(o);
+    o = Options{ "4 GB RAM", 22.95 };                        store->add_option(o);
+    o = Options{ "8 GB RAM", 34.99 };                        store->add_option(o);
+    o = Options{ "16 GB RAM", 92.99 };                       store->add_option(o);
+    o = Options{ "32 GB RAM", 134.96 };                      store->add_option(o);
+    o = Options{ "64 GB RAM", 319.99 };                      store->add_option(o);
+
+    o = Options{ "0.5 TB SSD", 79.99 };                      store->add_option(o);
+    o = Options{ "1 TB SSD", 109.99 };                       store->add_option(o);
+    o = Options{ "2 TB SSD", 229.99 };                       store->add_option(o);
+    o = Options{ "4 TB SSD", 599.99 };                       store->add_option(o);
+
+    o = Options{ "1 TB PC Disk", 44.83 };                    store->add_option(o);
+    o = Options{ "2 TB Hybrid Disk", 59.99 };                store->add_option(o);
+    o = Options{ "4 TB Hybrid Disk", 93.98 };                store->add_option(o);
+
+    int desktop = store->new_desktop();
+    store->add_option(0, desktop);
+    store->add_option(9, desktop);
+    store->add_option(14, desktop);
+
+    desktop = store->new_desktop();
+    store->add_option(1, desktop);
+    store->add_option(7, desktop);
+    store->add_option(17, desktop);
+
+    desktop = store->new_desktop();
+    store->add_option(5, desktop);
+    store->add_option(7, desktop);
+    store->add_option(15, desktop);
+}
 // /////////////////
 // U T I L I T I E S
 // /////////////////
@@ -288,22 +335,36 @@ void Mainwin::on_about_click() {
 
 std::string Mainwin::get_string(std::string prompt)
 {
+    EntryDialog ed_string{ *this, prompt };
+    ed_string.run();
+    return ed_string.get_text();
 }
 
 double Mainwin::get_double(std::string prompt)
 { 
-    return 0.0;
+    try {
+        return std::stod(get_string(prompt));
+    }
+    catch (std::exception & e) {
+        // std::MessageDialog{*this, "ERROR: Invalid double"}.run();
+        return -1.0;
+    }
 }
 
 int Mainwin::get_int(std::string prompt)
 {
-    return 0;
+    try {
+        return std::stoi(get_string(prompt));
+    }
+    catch (std::exception & e) {
+        // std::MessageDialog{*this, "ERROR: Invalid int"}.run();
+        return -1;
+    }
 }
 
 void Mainwin::set_data(std::string s)
 {
     data->set_markup(s);
-    s = "<span size='24000' weight='bold'>";
 }
 
 void Mainwin::set_msg(std::string s)
