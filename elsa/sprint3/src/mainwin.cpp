@@ -6,7 +6,7 @@
 Mainwin::Mainwin() : store{new Store} {
 
 
-
+        std::string Mainwin::filename : {"untitled.elsa"};
 
 
 	set_default_size(600, 400);
@@ -59,7 +59,21 @@ Mainwin::Mainwin() : store{new Store} {
     Gtk::MenuItem* menuitem_quit = Gtk::manage(new Gtk::MenuItem("_Quit", true));
     menuitem_quit->signal_activate().connect([this] {this->on_quit_click(); });
     filemenu->append(*menuitem_quit);
+ 
+    //         O P E N
+    Gtk::MenuItem* menuitem_open = Gtk::manage(new Gtk::MenuItem("_Open", true));
+    menuitem_open->signal_activate().connect([this] {this->on_open_click(); });
+    filemenu->append(*menuitem_open);
 
+    //        S A V E
+    Gtk::MenuItem* menuitem_save = Gtk::manage(new Gtk::MenuItem("_Save", true));
+    menuitem_save->signal_activate().connect([this] {this->on_save_click(); });
+    filemenu->append(*menuitem_save);
+
+    //        S A V E  A S
+    Gtk::MenuItem* menuitem_save_as = Gtk::manage(new Gtk::MenuItem("_Save As", true));
+    menuitem_save_as->signal_activate().connect([this] {this->on_save_as_click(); });
+    filemenu->append(*menuitem_save_as);
 
     //           A B O U T
     // Append About to the Help menu
@@ -260,6 +274,82 @@ void Mainwin::on_insert_customer_click()
     }
     on_view_customer_click();
     set_msg("Added customer " + name);
+}
+
+void Mainwin::on_open_click(){
+	 Gtk::FileChooserDialog dialog("Please choose a file",
+		Gtk::FileChooserAction::FILE_CHOOSER_ACTION_OPEN);
+    dialog.set_transient_for(*this);
+
+    auto filter_store = Gtk::FileFilter::create();
+    filter_store->set_name("ELSA files");
+    filter_store->add_pattern("*.elsa");
+    dialog.add_filter(filter_store);
+ 
+    auto filter_any = Gtk::FileFilter::create();
+    filter_any->set_name("Any files");
+    filter_any->add_pattern("*");
+    dialog.add_filter(filter_any);
+
+    dialog.set_filename("untitled.elsa");
+
+    //Add response buttons the the dialog:
+    dialog.add_button("_Cancel", 0);
+    dialog.add_button("_Open", 1);
+
+    int result = dialog.run();
+    if (result == 1) {
+        try {
+            delete store;
+            std::ifstream ifs{dialog.get_filename()};
+            store = new Store{ifs};
+            bool b;
+            ifs >> b;
+            if(!ifs) throw std::runtime_error{"File contents bad"};
+   	    set_data("");
+        } catch (std::exception& e) {
+            Gtk::MessageDialog{*this, "Unable to open store"}.run();
+         }
+    }
+
+}
+
+
+void Mainwin::on_save_click(){
+	
+        try {
+            std::ofstream ofs{filename};
+            store->save(ofs);
+            if(!ofs) throw std::runtime_error{"Error writing file"};
+        } catch(std::exception& e) {
+            Gtk::MessageDialog{*this, "Unable to save store"}.run();
+        }
+
+}
+void Mainwin::on_save_as_click(){
+  Gtk::FileChooserDialog dialog("Please choose a file",
+          Gtk::FileChooserAction::FILE_CHOOSER_ACTION_SAVE);
+    dialog.set_transient_for(*this);
+
+    auto filter_store = Gtk::FileFilter::create();
+    filter_store->set_name("ELSA files");
+    filter_store->add_pattern("*.elsa");
+    dialog.add_filter(filter_store);
+ 
+    auto filter_any = Gtk::FileFilter::create();
+    filter_any->set_name("Any files");
+    filter_any->add_pattern("*");
+    dialog.add_filter(filter_any);
+
+
+    dialog.set_filename("untitled.elsa");
+
+    //Add response buttons the the dialog:
+    dialog.add_button("_Cancel", 0);
+    dialog.add_button("_Save", 1);
+    dialog.run();
+    dialog.get_filename();
+    on_save_click();
 }
 
 
