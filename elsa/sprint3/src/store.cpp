@@ -1,8 +1,10 @@
 #include "store.h"
 #include <stdexcept>
 #include <cstdlib>
-
-
+#include <vector>
+#include <sstream>
+#include <fstream>
+#include <iostream>
 //
 // Customers
 //
@@ -45,11 +47,22 @@ int Store::num_orders() {return orders.size();}
 Order& Store::order(int index) {return orders.at(index);}
 
 void Store::save(std::ostream& ost){
-	//ost << customers << '\n' << options << '\n' << desktops << '\n' << orders << std::endl;
+	/*ost << customers.size() << std::endl;
+	for(int i = 0; i < customers.size()-1; i++)
+		ost << customers.at(i) << ' ';
+	if(!(ost.good()))
+		throw std::runtime_error("Cannot read data file"); */
 
 }
 Store::Store(std::istream& ist){
-	//ist >> customers >> options >> desktops >> orders; 
-	//ist.ignore(32767, '\n');
+	/*ist >> customers.size(); 
+	ist.ignore(32767, '\n');
+        Customer ist;
+	for(int i = 0; i < customers.size()-1; i++)
+		{customers.push_back(ist)};
+	if(!(ist.good()))
+		throw std::runtime_error("Cannot read data file"); */
+
 }
 Store::Store(){}
+

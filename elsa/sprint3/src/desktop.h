@@ -7,9 +7,10 @@
 #include <fstream>
 
 class Desktop {
-  public:
+  public: 
+    Desktop();
     void save(std::ostream& ost); //save
-    //Desktop(std::istream& ist);   
+    Desktop(std::istream& ist);   
     void add_option(Options& option);
     double price();
     friend std::ostream& operator<<(std::ostream& ost, const Desktop& desktop);

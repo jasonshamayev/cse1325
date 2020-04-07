@@ -8,7 +8,17 @@ std::ostream& operator<<(std::ostream& ost, const Customer& customer) {
 }
 
 void Customer::save(std::ostream& ost){
-	//ost << _name << std::endl;
-	//ost << _phone << std::endl;
-	//ost << _email << std::endl;
+	ost << _name << std::endl;
+	ost << _phone << std::endl;
+	ost << _email << std::endl;
 }
+
+Customer::Customer(std::istream& ist){
+
+	std::getline(std::cin,_name);
+	std::getline(std::cin,_phone);
+	std::getline(std::cin,_email);
+
+
+}
+

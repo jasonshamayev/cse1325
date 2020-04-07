@@ -13,7 +13,19 @@ std::ostream& operator<<(std::ostream& ost, const Desktop& desktop) {
 }
 
 void Desktop::save(std::ostream& ost){
-	//ost << options << std::endl;
+	/*int size = options.size()-1;
+	for(int i = 0; i < size; i++)
+		ost << options.at(i) << ' '; */
 
 }
+
+Desktop::Desktop(std::istream& ist){
+	/*int size = options.size()-1;
+	for (int i = 0; i < size; i++)
+		ist >> options.push_back(i) << ' '; */
+
+
+}
+
+Desktop::Desktop(){}
 

@@ -9,7 +9,7 @@
 class Customer {
   public:
     void save(std::ostream& ost); //save 
-    //Customer(std::istream& ist);
+    Customer(std::istream& ist);
     Customer(std::string name, std::string phone, std::string email);
     friend std::ostream& operator<<(std::ostream& ost, const Customer& customer);
   private:

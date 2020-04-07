@@ -2,11 +2,9 @@
 #include "entrydialog.h"
 #include <sstream>
 #include <iomanip>
+#include <vector>
 
-Mainwin::Mainwin() : store{new Store} {
-
-
-        std::string Mainwin::filename : {"untitled.elsa"};
+Mainwin::Mainwin() : store{new Store}, filename("untitled.elsa") {
 
 
 	set_default_size(600, 400);
@@ -296,16 +294,17 @@ void Mainwin::on_open_click(){
     //Add response buttons the the dialog:
     dialog.add_button("_Cancel", 0);
     dialog.add_button("_Open", 1);
-
+    filename = dialog.get_filename();
     int result = dialog.run();
     if (result == 1) {
         try {
             delete store;
             std::ifstream ifs{dialog.get_filename()};
             store = new Store{ifs};
-            bool b;
-            ifs >> b;
+            //bool b;
+            //ifs >> b;
             if(!ifs) throw std::runtime_error{"File contents bad"};
+	    set_msg("");
    	    set_data("");
         } catch (std::exception& e) {
             Gtk::MessageDialog{*this, "Unable to open store"}.run();
@@ -347,9 +346,11 @@ void Mainwin::on_save_as_click(){
     //Add response buttons the the dialog:
     dialog.add_button("_Cancel", 0);
     dialog.add_button("_Save", 1);
-    dialog.run();
     dialog.get_filename();
-    on_save_click();
+    int result = dialog.run();
+    if (result == 1){
+    	on_save_click();
+	}
 }
 
 
@@ -433,7 +434,7 @@ double Mainwin::get_double(std::string prompt)
         return std::stod(get_string(prompt));
     }
     catch (std::exception & e) {
-        // std::MessageDialog{*this, "ERROR: Invalid double"}.run();
+         Gtk::MessageDialog{*this, "ERROR: Invalid double"}.run();
         return -1.0;
     }
 }
@@ -444,7 +445,7 @@ int Mainwin::get_int(std::string prompt)
         return std::stoi(get_string(prompt));
     }
     catch (std::exception & e) {
-        // std::MessageDialog{*this, "ERROR: Invalid int"}.run();
+         Gtk::MessageDialog{*this, "ERROR: Invalid int"}.run();
         return -1;
     }
 }

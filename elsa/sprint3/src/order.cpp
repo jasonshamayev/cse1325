@@ -16,8 +16,14 @@ std::ostream& operator<<(std::ostream& ost, const Order& order) {
 }
 
 void Order::save(std::ostream& ost){
-	//ost << _customer << std::endl;
-	//ost << _products << std::endl;
+	/*ost << _customer << std::endl;
+	ost << _products << std::endl; */
 
 }
+
+/*Order::Order(std::istream& ist){
+	
+
+
+} */
 

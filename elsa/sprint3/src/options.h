@@ -9,7 +9,7 @@
 class Options {
   public:
     void save(std::ostream& ost); //save 
-    //Options(std::istream& ist);
+    Options(std::istream& ist);
     Options(std::string name, double cost);
     virtual ~Options();
     double cost();

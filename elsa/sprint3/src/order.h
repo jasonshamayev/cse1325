@@ -16,7 +16,7 @@ class Order {
     double price() const;
     friend std::ostream& operator<<(std::ostream& ost, const Order& order);
   private:
-    Customer& _customer;
+    Customer& _customer; // may need to change to *
     std::vector<Desktop*> _products;
 };
 

@@ -12,8 +12,14 @@ std::ostream& operator<<(std::ostream& ost, const Options& options) {
 }
 
 void Options::save(std::ostream& ost){
-	//ost << _name << std::endl;
-	//ost << _cost << std::endl;
+	ost << _name << std::endl;
+	ost << _cost << std::endl;
 
 
 }
+Options::Options(std::istream& ist){
+	ist >> _name >> _cost;
+	ist.ignore(32767, '\n');
+
+}
+
