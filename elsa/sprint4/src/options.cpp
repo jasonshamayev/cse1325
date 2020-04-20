@@ -11,8 +11,8 @@ std::ostream& operator<<(std::ostream& ost, const Options& options) {
     return ost;
 }
 
-void Options::save(std::ostream& ost){
-	ost << _name << '\n' << _cost << '\n';
+void Options::save(std::ostream& ost, const Options& options){
+	ost << options._name << '\n' << options._cost << '\n';
 
 
 }

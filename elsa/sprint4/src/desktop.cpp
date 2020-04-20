@@ -14,7 +14,7 @@ std::ostream& operator<<(std::ostream& ost, const Desktop& desktop) {
 
 void Desktop::save(std::ostream& ost){
     ost << options.size() << '\n';
-    for(auto c : options) c->save(ost);
+    for(auto c : options) c->save(ost, *c);
 
 }
 

@@ -21,11 +21,13 @@ protected:
 	void on_view_desktop_click();//
 	void on_view_order_click();//
 	void on_view_customer_click();//
+	void on_view_ram_click();
 
 	void on_insert_peripheral_click();//
 	void on_insert_desktop_click();//
 	void on_insert_order_click();//
 	void on_insert_customer_click();
+	void on_insert_ram_click();
 
 	void on_about_click();// done
 	void on_easter_egg_click();

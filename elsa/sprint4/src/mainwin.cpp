@@ -128,6 +128,9 @@ Mainwin::Mainwin() : store{new Store}, filename("untitled.elsa") {
     menuitem_order2->signal_activate().connect([this] {this->on_insert_order_click(); });
     insertmenu->append(*menuitem_order2);
 
+    
+    
+
     // D A T A   D I S P L A Y
     data = Gtk::manage(new Gtk::Label{ "", Gtk::ALIGN_START, Gtk::ALIGN_START });
     data->set_hexpand();
@@ -272,16 +275,57 @@ void Mainwin::on_insert_order_click()
 
 void Mainwin::on_insert_customer_click()
 { 
-    std::string name = get_string("Customer name?");
-    if (name.size()) {
-        std::string phone = get_string("Customer phone (xxx-xxx-xxxx)?");
-        std::string email = get_string("Customer email (xxx@domain.com)?");
+    //Gtk::Dialog dialog("Insert Customer");
+    Gtk::Dialog* dialog; 
+	dialog = new Gtk::Dialog{"Insert Customer", *this};
+	
+        Gtk::Entry* n_entry = Gtk::manage(new Gtk::Entry);
+	Gtk::Entry* p_entry = Gtk::manage(new Gtk::Entry);
+	Gtk::Entry* e_entry = Gtk::manage(new Gtk::Entry);
+        Gtk::Label* name = Gtk::manage(new Gtk::Label);
+	Gtk::Label* phone = Gtk::manage(new Gtk::Label);
+	Gtk::Label* email = Gtk::manage(new Gtk::Label);
+	Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox);
+	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
+	
 
-        Customer customer{ name, phone, email };
-        store->add_customer(customer);
-    }
-    on_view_customer_click();
-    set_msg("Added customer " + name);
+	name->set_markup("Name");
+	phone->set_markup("Phone");
+	email->set_markup("Email");
+        hbox->pack_start(*name,Gtk:: PACK_SHRINK, 0);
+	hbox->pack_start(*n_entry);
+	hbox->pack_start(*phone,Gtk:: PACK_SHRINK, 0);
+	hbox->pack_start(*p_entry);
+	hbox->pack_start(*email,Gtk:: PACK_SHRINK, 0);
+	hbox->pack_start(*e_entry);
+	dialog->get_content_area()->pack_start(*vbox);
+	dialog->get_content_area()->pack_start(*hbox);
+	dialog->add_button("_Insert",1);
+        dialog->add_button("_Cancel",0);
+	dialog->show_all();
+        int result = dialog->run();
+        if(result == 1){
+		try {
+		std::string name = n_entry->get_text();
+		std::string phone = p_entry->get_text();
+		std::string email = e_entry->get_text();
+
+		Customer customer{name, phone, email};
+		store->add_customer(customer);
+		on_view_customer_click();
+   		set_msg("Added customer " + name);
+
+		}
+
+
+		catch(std::exception& e){
+            		set_msg("<b>ERROR:</b> ");
+			on_view_customer_click();
+					}
+			}
+   on_view_customer_click();
+   set_msg("");
+   delete dialog; // Heap
 }
 
 void Mainwin::on_new_store_click() {

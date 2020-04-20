@@ -13,9 +13,9 @@ void Customer::save(std::ostream& ost){
 
 Customer::Customer(std::istream& ist){
 
-	std::getline(std::cin,_name);
-	std::getline(std::cin,_phone);
-	std::getline(std::cin,_email);
+	std::getline(ist,_name);
+	std::getline(ist,_phone);
+	std::getline(ist,_email);
 
 
 }

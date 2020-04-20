@@ -8,8 +8,8 @@ all: elsa
 debug: CXXFLAGS += -g
 debug: mainwin
 
-elsa: main.o mainwin.o entrydialog.o store.o customer.o options.o desktop.o order.o
-	$(CXX) $(CXXFLAGS) main.o mainwin.o entrydialog.o store.o customer.o options.o desktop.o order.o $(GTKFLAGS) -o elsa
+elsa: main.o mainwin.o entrydialog.o store.o customer.o options.o desktop.o order.o ram.o
+	$(CXX) $(CXXFLAGS) main.o mainwin.o entrydialog.o store.o customer.o options.o desktop.o order.o ram.o $(GTKFLAGS) -o elsa
 
 main.o: main.cpp *.h
 	$(CXX) $(CXXFLAGS) -c main.cpp $(GTKFLAGS) -o main.o
@@ -34,6 +34,9 @@ desktop.o: desktop.cpp *.h
 
 order.o: order.cpp *.h
 	$(CXX) $(CXXFLAGS) -c order.cpp $(GTKFLAGS) -o order.o
+
+ram.o: ram.cpp *.h
+	$(CXX) $(CXXFLAGS) -c ram.cpp $(GTKFLAGS) -o ram.o
 	 
 clean:
 	rm -f *.o *.gch elsa

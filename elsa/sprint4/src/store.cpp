@@ -57,7 +57,7 @@ void Store::save(std::ostream& ost){
 
     // Save Options
     ost << options.size() << '\n';
-    for(auto o : options) o->save(ost);
+    for(auto o : options) o->save(ost, *o);
 
     // Save desktops
     ost << desktops.size() << '\n';
