@@ -5,6 +5,7 @@
 #include "options.h"
 #include "desktop.h"
 #include "order.h"
+#include "ram.h"
 #include <iostream>
 #include <fstream>
 

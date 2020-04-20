@@ -220,6 +220,15 @@ void Mainwin::on_view_customer_click()
 
 void Mainwin::on_insert_peripheral_click()
 {
+ Gtk::Dialog* dialog; 
+	dialog = new Gtk::Dialog{"Name of new peripheral?", *this};
+
+    dialog->add_button("_RAM",2);
+    dialog->add_button("_Other",1);
+    dialog->add_button("_Cancel",0);
+    dialog->show_all();
+    int result = dialog->run();
+    if(result == 1){
     std::string peripheral = get_string("Name of new peripheral?");
     double cost = get_double("Cost?");
 
@@ -228,6 +237,23 @@ void Mainwin::on_insert_peripheral_click()
 
     on_view_peripheral_click();
     set_msg("Added peripheral " + peripheral);
+		}
+    if(result == 2){
+	std::string name = "RAM";
+	//std::string ram_size = get_string("Enter size of RAM");
+        int gb = get_int("Size?");
+	//std::string ram_price = get_string("Enter price of RAM");
+	double cost = get_double("Cost?");
+
+	Ram ram{name, cost, gb};
+	store->add_option(ram);
+	on_view_peripheral_click();
+	set_msg("Added RAM");
+
+		}
+   on_view_peripheral_click();
+   set_msg("");
+   delete dialog; // Heap
 }
 
 void Mainwin::on_insert_desktop_click()
