@@ -65,14 +65,14 @@ sys	0m0.000s
 
 QUESTION 3: Does adding more threads continue to speed up the program? Do more threads ever slow down the program slightly?  Why or why not?
 
-Yes from my testing the more threads the faster it goes, but I feel this is not always the case. Efficency is also important so for other codes when you get to the most efficient number of threads anything above that will start to slow down.
+Yes from my testing the more threads the faster it goes, but I feel this is not always the case. Efficency is also important so for other codes when you get to the most efficient number of threads anything above that will start to slow down. Also it can depend on how many processors your device has or if your OS. Something I would like to note is that when i put an excessive amount of threads (10^15 or around that) i noticed i got an out of range error! 
 
 
 
 QUESTION 4: Does adding more threads increase the "system load", or is it constant regardless of the number of threads?  Why?
 
 
-Adding threads can increase the system load as when you hit an excess number of threads it'll start to slow the program down as the system load gets higher.
+Adding threads can increase the system load as when you hit an excess number of threads it'll start to slow the program down as the system load gets higher. Each thread uses memory so obviously finding a sweetspot where the threads are helping it go fast enough to make up for the memory usage is ideal.
 
 
 
