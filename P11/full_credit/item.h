@@ -1,5 +1,6 @@
 #ifndef __ITEM_H
 #define __ITEM_H
+#include <iostream>
 
 class Item {
 public:

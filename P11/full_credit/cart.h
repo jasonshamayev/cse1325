@@ -13,17 +13,15 @@ public:
 	~Cart();
 	Cart(const Cart& cart);
 	Cart& operator=(const Cart& cart);
-	add_item(Item& item);
+	void add_item(Item& item);
 	double cost();
 	typedef iterator;
 	typedef const_iterator;
-	iterator begin();
+    iterator begin();
 	iterator end();
 private:
 	std::string _customer;
-	std:vector<Item*> _items;
-	_items items;
-	
+	std::vector<Item*> _items;
 
 };
 #endif
