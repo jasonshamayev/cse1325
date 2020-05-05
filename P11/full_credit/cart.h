@@ -1,8 +1,8 @@
 #ifndef __CART_H
 #define __CART_H
-#include <iterator>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <iterator>
 #include "item.h"
 
@@ -15,13 +15,16 @@ public:
 	Cart& operator=(const Cart& cart);
 	void add_item(Item& item);
 	double cost();
-	typedef iterator;
-	typedef const_iterator;
+	//typedef iterator;
+	//typedef const_iterator;
+	typedef std::vector<Item*>::iterator iterator;
+	//typedef Item* ::iterator;
+	typedef std::vector<Item*>::const_iterator const_iterator;
     iterator begin();
 	iterator end();
 private:
 	std::string _customer;
-	std::vector<Item*> _items;
-
+	typedef std::vector<Item*> _items;
+	_items itemlist;
 };
 #endif

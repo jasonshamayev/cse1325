@@ -1,47 +1,45 @@
 #include "cart.h"
 #include "item.h"
 #include <string>
-#include <iterator>
 #include <algorithm>
+#include <iterator>
 
 Cart::Cart(std::string customer) : _customer{customer}{}
 
-Cart::~Cart(){delete &_items;}
+Cart::~Cart(){delete &itemlist;}
 
-Cart::Cart(const Cart& cart) : _items(cart._items){
-	_items = cart._items;
+Cart::Cart(const Cart& cart) :  itemlist(cart.itemlist){
+	itemlist = cart.itemlist;
 }
 Cart& Cart::operator=(const Cart& cart) {
 	if (this != &cart) {
-		_items = cart._items;
+		itemlist = cart.itemlist;
 		if (this == &cart)
 			return *this;
 	}
 }
-
 typedef Cart::iterator iterator;
 typedef Cart::const_iterator const_iterator;
 
 iterator Cart::begin() {
-
-	return &_items.begin();
+	return itemlist.begin();
 }
 iterator Cart::end() {
 
-	return end(_items);
+	return itemlist.end();
 }
 
 void Cart::add_item(Item& item){
 	
 	Item* ptr = new Item(item);
-	_items.push_back(&item);
+	itemlist.push_back(&item);
 
 }
 double Cart::cost(){
 	double total = 0;
-	for(int i = 0; i < _items.size()-1;i++)
+	for(int i = 0; i < itemlist.size()-1;i++)
 	{
-		total += _items[i]->cost();
+		total += itemlist[i]->cost();
 		return total;
 	}
 }
