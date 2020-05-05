@@ -10,6 +10,7 @@ Cart::~Cart(){delete &itemlist;}
 
 Cart::Cart(const Cart& cart) :  itemlist(cart.itemlist){
 	itemlist = cart.itemlist;
+	delete &itemlist;
 }
 Cart& Cart::operator=(const Cart& cart) {
 	if (this != &cart) {
@@ -18,8 +19,8 @@ Cart& Cart::operator=(const Cart& cart) {
 			return *this;
 	}
 }
-typedef Cart::iterator iterator;
-typedef Cart::const_iterator const_iterator;
+typedef std::vector<Item*>::iterator iterator;
+typedef std::vector<Item*>::const_iterator const_iterator;
 
 iterator Cart::begin() {
 	return itemlist.begin();

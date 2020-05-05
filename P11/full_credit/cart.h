@@ -20,7 +20,7 @@ public:
 	typedef std::vector<Item*>::iterator iterator;
 	//typedef Item* ::iterator;
 	typedef std::vector<Item*>::const_iterator const_iterator;
-    iterator begin();
+    	iterator begin();
 	iterator end();
 private:
 	std::string _customer;

@@ -8,11 +8,10 @@
 
 int main() {
 	std::ifstream file("groceries.txt");
-	Cart cart{ "John" };
-	Item item{ " ", 0};
+	Cart cart{ "Jason"};
+	Item item{" ", 0};
 std::cout << "Enter product names and price (e.g., Enlgish peas 0.79) \n";
-std::string list;
-std::getline(file, list);
+
 while(!file.eof())
 {
 	std::string list;
@@ -25,6 +24,7 @@ std::string cost = std::string(list, found+1, list.size()-found);
 	if (double _price = std::stod(cost))
 	{
 		std::cout << list << std::endl;
+		//cart.add_item(item{list});
 	}
 	else {
 		std::cout << list << std::endl;
@@ -38,12 +38,12 @@ std::string cost = std::string(list, found+1, list.size()-found);
 
 }
 
-	std::cout << "\n\nRegister Receipt \n\n";
+	std::cout << "\n\nRegister Receipt\n\n";
 	
-for(std::vector<Item*>::iterator it = list.begin(); it!=list.end(); ++it){
+/*for(std::vector<Item*>::iterator it = item.begin(); it!=item.end(); ++it){
 	std::cout << &it << " ";
 	std::cout << std::endl;
 
 
-}
+} */
 }
