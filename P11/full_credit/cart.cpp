@@ -33,6 +33,7 @@ void Cart::add_item(Item& item){
 	
 	Item* ptr = new Item(item);
 	itemlist.push_back(&item);
+	delete ptr;
 
 }
 double Cart::cost(){
